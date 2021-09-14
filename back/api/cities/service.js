@@ -13,11 +13,21 @@ const baseUrl = "http://dataservice.accuweather.com/";
 // this is working:
 // http://dataservice.accuweather.com/locations/v1/cities/autocomplete?
 // apikey=P&language=en-us&q=tel
+// http://dataservice.accuweather.com/locations/v1/cities/autocomplete?
+// apikey=PmBDsujxINwZUWbupBtyUUcfXGMBnAIL;&language=en-us&q=tel
 const getCities = async (req, res) => {
-  console.log("My req", req);
-  console.log("My params", req.parmas.q);
-  const query = `locations/v1/cities/autocomplete?apikey=${apiKey}&language=en-us&q=`;
-  res.send(200);
+  const q = req.params.q;
+  const query = `locations/v1/cities/autocomplete?apikey=${apiKey}&language=en-us&q=${q}`;
+  try {
+    const response = await fetch(baseUrl + query);
+    const cities = await response.json();
+
+    // console.log("My getCities cities:", cities);
+    res.send(cities);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
 };
 
 module.exports = {

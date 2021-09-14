@@ -1,8 +1,8 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 
 const { getCities } = require("./api/cities/service"); // see 888 server
 // const { getContinents, cacheContinents } = require('./services/continent.service.js');
@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === "production") {
 // app.get("/**", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../frontend/public", "index.html"));
 // });
-app.get("api/cities/:q", getCities);
+app.get("/api/cities/:q", getCities);
 app.listen(port, () => {
   console.log("Server is running on port: " + port);
 });

@@ -4,8 +4,10 @@ const cors = require("cors");
 const path = require("path");
 // const cookieParser = require("cookie-parser");
 
-const { getCities } = require("./api/cities/service"); // see 888 server
-// const { getContinents, cacheContinents } = require('./services/continent.service.js');
+const { getCities } = require("./api/cities/service");
+const { getCurrentWeather } = require("./api/currentWeather/service");
+const { getForecast } = require("./api/forecast/service");
+
 const port = process.env.PORT || 3030;
 
 const app = express();
@@ -63,6 +65,8 @@ if (process.env.NODE_ENV === "production") {
 //   res.sendFile(path.join(__dirname, "../frontend/public", "index.html"));
 // });
 app.get("/api/cities/:q", getCities);
+app.get("/api/currentWeather/:cityCode", getCurrentWeather);
+app.get("/api/forecast/:cityCode", getForecast);
 app.listen(port, () => {
   console.log("Server is running on port: " + port);
 });

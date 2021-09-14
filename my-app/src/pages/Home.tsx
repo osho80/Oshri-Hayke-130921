@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { queryCity } from "../services/weatherService";
+import React, { useState, useEffect } from "react";
+import {
+  queryCity,
+  getCurrentWeather,
+  getForecast,
+} from "../services/weatherService";
 
 interface City {
   AdministrativeArea: any;
@@ -9,10 +13,40 @@ interface City {
   Rank: number;
   Type: string;
 }
+interface DailyForecast {
+  Date: string;
+  Day: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
+  EpochDate: number;
+  Link: string;
+  MobileLink: string;
+  Night: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
+  Sources: string[];
+  Temperature: {
+    Maximum: { Unit: string; UnitType: number; Value: number };
+    Minimum: { Unit: string; UnitType: number; Value: number };
+  };
+}
+
+interface CityProps {
+  cityCode: string;
+  cityName: string;
+}
 
 const Home = () => {
   const [cities, setCities] = useState<[] | City[]>([]);
-  const [cityCode, setCityCode] = useState("");
+  const [city, setCity] = useState("Tel Aviv");
+  const [cityCode, setCityCode] = useState("215854");
+  const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
+
+  useEffect(() => {
+    // getCurrentWeather(cityCode);
+    const forecastData = async () => {
+      const forecast = await getForecast(cityCode, false);
+      // console.log("My forecast:", forecast);
+      setForecast(forecast.DailyForecasts);
+    };
+    forecastData();
+  }, [cityCode]);
 
   const handleChange = async (e: any) => {
     console.log(e.target.value);
@@ -23,11 +57,15 @@ const Home = () => {
     }
   };
 
-  const selectCity = (cityCode: string) => {
+  const selectCity = ({ cityCode, cityName }: CityProps) => {
     setCityCode(cityCode);
+    setCity(cityName);
   };
 
   console.log("My cities:", cities);
+  console.log("My city:", city);
+  console.log("My code:", cityCode);
+  console.log("My forecast:", forecast);
 
   return (
     <div>
@@ -44,7 +82,12 @@ const Home = () => {
               <div
                 key={idx}
                 className="city-item"
-                onClick={() => selectCity(city.Key)}
+                onClick={() =>
+                  selectCity({
+                    cityCode: city.Key,
+                    cityName: city.LocalizedName,
+                  })
+                }
               >
                 <p>{city.LocalizedName}</p>
               </div>
@@ -57,3 +100,5 @@ const Home = () => {
 };
 
 export default Home;
+
+// material ui icons: Favorite, FavoriteBorder

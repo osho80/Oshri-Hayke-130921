@@ -1,51 +1,69 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import {
   queryCity,
   getCurrentWeather,
   getForecast,
 } from "../services/weatherService";
+import {
+  getCurrentLocation,
+  setLocation,
+  removeCity,
+  setUnit,
+} from "../store/actions";
 
-interface City {
-  AdministrativeArea: any;
-  Country: { ID: string; LocalizedName: string };
-  Key: string;
-  LocalizedName: string;
-  Rank: number;
-  Type: string;
-}
-interface DailyForecast {
-  Date: string;
-  Day: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
-  EpochDate: number;
-  Link: string;
-  MobileLink: string;
-  Night: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
-  Sources: string[];
-  Temperature: {
-    Maximum: { Unit: string; UnitType: number; Value: number };
-    Minimum: { Unit: string; UnitType: number; Value: number };
-  };
-}
+import { City, DailyForecast, CityProps } from "../types/types";
 
-interface CityProps {
-  cityCode: string;
-  cityName: string;
-}
+// interface City {
+//   AdministrativeArea: any;
+//   Country: { ID: string; LocalizedName: string };
+//   Key: string;
+//   LocalizedName: string;
+//   Rank: number;
+//   Type: string;
+// }
+// interface DailyForecast {
+//   Date: string;
+//   Day: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
+//   EpochDate: number;
+//   Link: string;
+//   MobileLink: string;
+//   Night: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
+//   Sources: string[];
+//   Temperature: {
+//     Maximum: { Unit: string; UnitType: number; Value: number };
+//     Minimum: { Unit: string; UnitType: number; Value: number };
+//   };
+// }
 
-const Home = () => {
+// interface CityProps {
+//   cityCode: string;
+//   cityName: string;
+// }
+
+const Home = (props: any) => {
   const [cities, setCities] = useState<[] | City[]>([]);
-  const [city, setCity] = useState("Tel Aviv");
-  const [cityCode, setCityCode] = useState("215854");
+  const [city, setCity] = useState<null | string>(null);
+  const [cityCode, setCityCode] = useState<null | string>(null);
   const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
 
   useEffect(() => {
+    props.getCurrentLocation();
+    if (props.currLocation.id) {
+      setCityCode(props.currLocation.id);
+      setCity(props.currLocation.name);
+    }
+  }, [props]);
+
+  useEffect(() => {
     // getCurrentWeather(cityCode);
-    const forecastData = async () => {
-      const forecast = await getForecast(cityCode, false);
-      // console.log("My forecast:", forecast);
-      setForecast(forecast.DailyForecasts);
-    };
-    forecastData();
+    // const forecastData = async () => {
+    //   const forecast = await getForecast(cityCode, false);
+    //   // console.log("My forecast:", forecast);
+    //   setForecast(forecast.DailyForecasts);
+    // };
+    // forecastData();
+    console.log("Bring function back");
   }, [cityCode]);
 
   const handleChange = async (e: any) => {
@@ -60,12 +78,14 @@ const Home = () => {
   const selectCity = ({ cityCode, cityName }: CityProps) => {
     setCityCode(cityCode);
     setCity(cityName);
+    props.setLocation({ id: cityCode, name: cityName });
   };
 
   console.log("My cities:", cities);
   console.log("My city:", city);
   console.log("My code:", cityCode);
   console.log("My forecast:", forecast);
+  console.log("My props:", props);
 
   return (
     <div>
@@ -99,6 +119,20 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state: any) => {
+  return {
+    currLocation: state.appStore.currLocation,
+    tempUnit: state.appStore.tempUnit,
+  };
+};
+
+const mapDispatchToProps = {
+  getCurrentLocation,
+  setLocation,
+  removeCity,
+  setUnit,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 // material ui icons: Favorite, FavoriteBorder

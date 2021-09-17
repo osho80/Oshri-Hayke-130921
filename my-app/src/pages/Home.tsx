@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { Container, Grid } from "@material-ui/core";
+
 import {
   queryCity,
   getCurrentWeather,
@@ -11,35 +13,9 @@ import {
   removeCity,
   setUnit,
 } from "../store/actions";
+import Current from "../components/Current";
 
 import { City, DailyForecast, CityProps } from "../types/types";
-
-// interface City {
-//   AdministrativeArea: any;
-//   Country: { ID: string; LocalizedName: string };
-//   Key: string;
-//   LocalizedName: string;
-//   Rank: number;
-//   Type: string;
-// }
-// interface DailyForecast {
-//   Date: string;
-//   Day: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
-//   EpochDate: number;
-//   Link: string;
-//   MobileLink: string;
-//   Night: { Icon: number; IconPhrase: string; HasPrecipitation: boolean };
-//   Sources: string[];
-//   Temperature: {
-//     Maximum: { Unit: string; UnitType: number; Value: number };
-//     Minimum: { Unit: string; UnitType: number; Value: number };
-//   };
-// }
-
-// interface CityProps {
-//   cityCode: string;
-//   cityName: string;
-// }
 
 const Home = (props: any) => {
   const [cities, setCities] = useState<[] | City[]>([]);
@@ -76,8 +52,8 @@ const Home = (props: any) => {
   };
 
   const selectCity = ({ cityCode, cityName }: CityProps) => {
-    setCityCode(cityCode);
-    setCity(cityName);
+    setCityCode(cityCode); // perhaps unnecessary
+    setCity(cityName); // perhaps unnecessary
     props.setLocation({ id: cityCode, name: cityName });
   };
 
@@ -89,7 +65,7 @@ const Home = (props: any) => {
 
   return (
     <div>
-      <h1>Tel-Aviv</h1>
+      <h1>Keeping you always above the weather</h1>
       <input
         type="text"
         placeholder="search a city"
@@ -115,6 +91,16 @@ const Home = (props: any) => {
           })}
         </div>
       )}
+      <Container className="main-contaier">
+        <Grid container spacing={4} alignItems="center">
+          <Grid item xs={12} sm={12} md={6}>
+            <Current />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <div className="forecast-contaier"></div>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 };

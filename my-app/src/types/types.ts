@@ -29,6 +29,22 @@ export interface DailyForecast {
   };
 }
 
+export interface CurrentConditions {
+  LocalObservationDateTime: string;
+  EpochTime: number;
+  WeatherText: string;
+  WeatherIcon: number;
+  HasPrecipitation: boolean;
+  PrecipitationType: string | null;
+  isDayTime: boolean;
+  Temperature: {
+    Metric: { Value: number; Unit: string; UnitType: number };
+    Imperial: { Value: number; Unit: string; UnitType: number };
+  };
+  Link: string;
+  MobileLink: string;
+}
+
 export interface CityProps {
   cityCode: string;
   cityName: string;

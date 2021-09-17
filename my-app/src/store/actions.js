@@ -30,6 +30,12 @@ export function setUnit(unit) {
   };
 }
 
+export function setMode(isDark) {
+  return (dispatch) => {
+    dispatch(_setMode(isDark));
+  };
+}
+
 const _getCurrLocation = () => {
   return { type: "GET_LOCATION" };
 };
@@ -48,6 +54,10 @@ const _removeCity = (city) => {
 
 const _setUnit = (unit) => {
   return { type: "SET_UNIT", unit };
+};
+
+const _setMode = (isDark) => {
+  return { type: "SET_MODE", isDark };
 };
 
 // function _setLoggedInUser(user) {

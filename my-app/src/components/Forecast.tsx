@@ -56,7 +56,7 @@ const cursorPointer = `&:hover {
 
 const ForecastContainer = styled.div`
   background-color: #61dafb;
-  padding: 20px;
+  padding: 0 20px;
 `;
 const DayForecast = styled.div`
   display: flex;

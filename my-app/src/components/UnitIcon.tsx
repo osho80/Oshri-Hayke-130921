@@ -2,13 +2,24 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { setUnit } from "../store/actions";
+import { setCookie, getCookie } from "../services/cookieService";
 
 const UnitIcon = (props: any) => {
   const [currUnit, setCurrUnit] = useState<null | string>(null);
+  const [localUnit, setLocalUnit] = useState("");
+  const cookieName = "unit";
   useEffect(() => {
-    const currUnit = props.tempUnit;
-    setCurrUnit(currUnit);
-  }, [props]);
+    const getLocal = getCookie(cookieName);
+    if (getLocal) {
+      setLocalUnit(getLocal);
+      props.setUnit(getLocal);
+    }
+  }, []);
+
+  useEffect(() => {
+    const storeUnit = props.tempUnit;
+    setCurrUnit(storeUnit);
+  }, [props, currUnit]);
 
   const isCels = currUnit === "c" ? true : false;
   const unitIconSrc = isCels
@@ -22,8 +33,13 @@ const UnitIcon = (props: any) => {
       title={unitTitle}
       alt="Toggle Celsius / Fahrenheit"
       onClick={() => {
-        if (currUnit === "c") props.setUnit("f");
-        else props.setUnit("c");
+        if (currUnit === "c") {
+          setCookie(cookieName, "f", 60);
+          props.setUnit("f");
+        } else {
+          setCookie(cookieName, "c", 60);
+          props.setUnit("c");
+        }
       }}
     />
   );
@@ -35,6 +51,7 @@ const Unit = styled.img`
   }
   width: 20px;
   height: 20px;
+  margin-left: 10px;
 `;
 
 const mapStateToProps = (state: any) => {

@@ -2,6 +2,7 @@ const initialState = {
   currLocation: {},
   favCities: [],
   tempUnit: "c",
+  isDark: false,
 };
 
 const defaultLoc = initialState.favCities[0] || {
@@ -27,6 +28,8 @@ const appReducer = (state = initialState, action) => {
       };
     case "SET_UNIT":
       return { ...state, tempUnit: action.unit };
+    case "SET_MODE":
+      return { ...state, isDark: action.isDark };
     default:
       return state;
   }

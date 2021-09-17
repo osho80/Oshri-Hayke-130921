@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Container, Grid } from "@material-ui/core";
+import styled from "styled-components";
+import { darkTheme, lightTheme } from "../theme";
 
 import {
   queryCity,
@@ -15,7 +17,6 @@ import {
 } from "../store/actions";
 import Current from "../components/Current";
 import Forecast from "../components/Forecast";
-import Temperature from "../components/Temperature";
 
 import { City, DailyForecast, CityProps } from "../types/types";
 
@@ -24,6 +25,7 @@ const Home = (props: any) => {
   const [city, setCity] = useState<null | string>(null);
   const [cityCode, setCityCode] = useState<null | string>(null);
   const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
+  const [isDark, setDarkMode] = useState<null | boolean>(null);
 
   useEffect(() => {
     props.getCurrentLocation();
@@ -31,6 +33,7 @@ const Home = (props: any) => {
       setCityCode(props.currLocation.id);
       setCity(props.currLocation.name);
     }
+    setDarkMode(props.isDark);
   }, [props]);
 
   useEffect(() => {
@@ -59,6 +62,8 @@ const Home = (props: any) => {
     props.setLocation({ id: cityCode, name: cityName });
   };
 
+  const divStyle = isDark ? darkTheme : lightTheme;
+  const txtColor = isDark ? "white" : "";
   console.log("My cities:", cities);
   console.log("My city:", city);
   console.log("My code:", cityCode);
@@ -66,55 +71,83 @@ const Home = (props: any) => {
   console.log("My props:", props);
 
   return (
-    <div>
-      <h1>Keeping you always above the weather</h1>
-      <input
-        type="text"
-        placeholder="search a city"
-        onChange={(e) => handleChange(e)}
-      />
-      {cities.length > 0 && (
-        <div className="cities">
-          {cities.map((city, idx) => {
-            return (
-              <div
-                key={idx}
-                className="city-item"
-                onClick={() =>
-                  selectCity({
-                    cityCode: city.Key,
-                    cityName: city.LocalizedName,
-                  })
-                }
-              >
-                <p>{city.LocalizedName}</p>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <Container className="main-contaier">
-        <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} sm={12} md={6}>
-            <Current />
+    <div style={divStyle}>
+      <HomeContainer>
+        <Title style={{ color: txtColor }}>
+          Always Keeping you Above the Weather
+        </Title>
+        <CitySearch
+          type="text"
+          placeholder="search a city"
+          onChange={(e) => handleChange(e)}
+        />
+        {cities.length > 0 && (
+          <div className="cities">
+            {cities.map((city, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="city-item"
+                  onClick={() =>
+                    selectCity({
+                      cityCode: city.Key,
+                      cityName: city.LocalizedName,
+                    })
+                  }
+                >
+                  <p>{city.LocalizedName}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        <Container className="main-contaier">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} sm={12} md={6}>
+              <Current />
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <ForecastContainer>
+                <Forecast />
+                <Forecast />
+                <Forecast />
+                <Forecast />
+                <Forecast />
+              </ForecastContainer>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <Forecast />
-            <Forecast />
-            <Forecast />
-            <Forecast />
-            <Forecast />
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </HomeContainer>
     </div>
   );
 };
+
+const HomeContainer = styled.div`
+  max-width: 1440px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Title = styled.h1``;
+
+const CitySearch = styled.input`
+  width: 60%;
+  padding: 10px;
+  margin-bottom: 30px;
+`;
+
+const ForecastContainer = styled.div`
+  // height: 70vh;
+`;
 
 const mapStateToProps = (state: any) => {
   return {
     currLocation: state.appStore.currLocation,
     tempUnit: state.appStore.tempUnit,
+    isDark: state.appStore.isDark,
   };
 };
 

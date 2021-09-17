@@ -53,7 +53,7 @@ const Current = (props: any) => {
   const isDay = true;
   const heartIconSrc = isFav
     ? "../assets/images/red-heart.png"
-    : "../assets/images/outlined-heart.png";
+    : "../assets/images/outlined-heart_white.png";
   const heartTitle = isFav ? "Remove from favourites" : "Add to favourites";
   const unitIconSrc = isCels
     ? "../assets/images/celsius.png"
@@ -115,6 +115,7 @@ const flexAlignCenter = `
 
 const DailyContaier = styled.div`
   color: white;
+  max-height: 50vh;
 `;
 
 const CardTitle = styled.div`

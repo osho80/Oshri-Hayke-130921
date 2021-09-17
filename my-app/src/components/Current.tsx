@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Container, Grid } from "@material-ui/core";
 import styled from "styled-components";
+import Temperature from "./Temperature";
+import ConditionIcon from "./ConditionIcon";
 
 import {
   queryCity,
@@ -80,7 +81,7 @@ const Current = (props: any) => {
         </CardTitle>
       )}
       <TempAndCondition>
-        <Temp>
+        {/* <Temp>
           <h3>27</h3>
           <UnitIcon
             src={unitIconSrc}
@@ -88,8 +89,9 @@ const Current = (props: any) => {
             alt="Toggle Celsius / Fahrenheit"
             onClick={() => console.log("Toggle Celsius / Fahrenheit")}
           />
-        </Temp>
-        <ConditionIcon src={"../assets/images/01-s.png"} />
+        </Temp> */}
+        <Temperature temp={23} />
+        <ConditionIcon idx={1} />
       </TempAndCondition>
       <ConditionText>Clear</ConditionText>
     </DailyContaier>
@@ -140,10 +142,6 @@ const UnitIcon = styled.img`
   height: 20px;
   ${cursorPointer};
   margin-left: 10px;
-`;
-
-const ConditionIcon = styled.img`
-  ${cursorPointer};
 `;
 
 const ConditionText = styled.div`

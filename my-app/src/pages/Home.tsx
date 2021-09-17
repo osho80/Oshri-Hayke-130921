@@ -14,6 +14,8 @@ import {
   setUnit,
 } from "../store/actions";
 import Current from "../components/Current";
+import Forecast from "../components/Forecast";
+import Temperature from "../components/Temperature";
 
 import { City, DailyForecast, CityProps } from "../types/types";
 
@@ -97,7 +99,11 @@ const Home = (props: any) => {
             <Current />
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <div className="forecast-contaier"></div>
+            <Forecast />
+            <Forecast />
+            <Forecast />
+            <Forecast />
+            <Forecast />
           </Grid>
         </Grid>
       </Container>

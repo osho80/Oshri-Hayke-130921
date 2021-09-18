@@ -49,16 +49,11 @@ const Current = (props: any) => {
   }, [cityCode]);
 
   const isFav = false;
-  const isCels = true;
   const isDay = true;
   const heartIconSrc = isFav
     ? "../assets/images/red-heart.png"
     : "../assets/images/outlined-heart_white.png";
   const heartTitle = isFav ? "Remove from favourites" : "Add to favourites";
-  const unitIconSrc = isCels
-    ? "../assets/images/celsius.png"
-    : "../assets/images/celsius.png";
-  const unitTitle = isCels ? "Change to Fahrenheit" : "Change to Celsius";
   const containerBgc = isDay ? "#174385" : "#344463";
 
   console.log("My city:", city);

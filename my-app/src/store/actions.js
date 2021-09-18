@@ -24,6 +24,12 @@ export function removeCity(city) {
   };
 }
 
+export function setCities(citiesArr) {
+  return (dispatch) => {
+    dispatch(_setCities(citiesArr));
+  };
+}
+
 export function setUnit(unit) {
   return (dispatch) => {
     dispatch(_setUnit(unit));
@@ -50,6 +56,10 @@ const _addCity = (city) => {
 
 const _removeCity = (city) => {
   return { type: "REMOVE_CITY", city };
+};
+
+const _setCities = (citiesArr) => {
+  return { type: "SET_CITIES", citiesArr };
 };
 
 const _setUnit = (unit) => {

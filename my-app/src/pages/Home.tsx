@@ -124,6 +124,7 @@ const Home = (props: any) => {
 
 const HomeContainer = styled.div`
   max-width: 1440px;
+  min-height: 80vh;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -131,7 +132,9 @@ const HomeContainer = styled.div`
   justify-content: center;
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  font-familty: ShadowsIntoLight;
+`;
 
 const CitySearch = styled.input`
   width: 60%;

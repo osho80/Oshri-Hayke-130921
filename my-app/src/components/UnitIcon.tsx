@@ -23,8 +23,8 @@ const UnitIcon = (props: any) => {
 
   const isCels = currUnit === "c" ? true : false;
   const unitIconSrc = isCels
-    ? "../assets/images/celsius.png"
-    : "../assets/images/celsius-white.png";
+    ? "../assets/images/celsius-white.png"
+    : "../assets/images/fahrenheit-white.png";
   const unitTitle = isCels ? "Change to Fahrenheit" : "Change to Celsius";
 
   return (

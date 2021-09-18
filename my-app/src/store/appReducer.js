@@ -26,6 +26,11 @@ const appReducer = (state = initialState, action) => {
         ...state,
         favCities: state.favCities.filter((city) => city.id !== action.id),
       };
+    case "SET_CITIES":
+      return {
+        ...state,
+        favCities: action.cities,
+      };
     case "SET_UNIT":
       return { ...state, tempUnit: action.unit };
     case "SET_MODE":

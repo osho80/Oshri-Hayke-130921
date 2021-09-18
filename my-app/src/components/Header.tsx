@@ -9,8 +9,17 @@ import { setMode } from "../store/actions";
 
 const Header = (props: any) => {
   const [isDark, setDarkMode] = useState<null | boolean>(null);
-  const [localUnit, setLocalUnit] = useState("");
+  const [localUnit, setLocalUnit] = useState<null | boolean>(null);
   const cookieName = "darkMode";
+
+  useEffect(() => {
+    const user1 = { name: "x", admin: true };
+    const user2 = { name: "y", admin: false };
+    const users = [user1, user2];
+    setCookie("users", JSON.stringify(users), 60);
+    const x = getCookie("users");
+    if (x) console.log("@@@@@@@@@@@@:", JSON.parse(x));
+  }, []);
 
   useEffect(() => {
     const getLocal = getCookie(cookieName);
@@ -103,6 +112,7 @@ const mapStateToProps = (state: any) => {
   return {
     tempUnit: state.appStore.tempUnit,
     isDark: state.appStore.isDark,
+    favCities: state.appStore.favCities,
   };
 };
 

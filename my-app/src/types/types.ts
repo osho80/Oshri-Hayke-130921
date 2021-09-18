@@ -46,6 +46,6 @@ export interface CurrentConditions {
 }
 
 export interface CityProps {
-  cityCode: string;
-  cityName: string;
+  id: string;
+  name: string;
 }

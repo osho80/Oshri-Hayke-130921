@@ -13,15 +13,6 @@ const Header = (props: any) => {
   const cookieName = "darkMode";
 
   useEffect(() => {
-    const user1 = { name: "x", admin: true };
-    const user2 = { name: "y", admin: false };
-    const users = [user1, user2];
-    setCookie("users", JSON.stringify(users), 60);
-    const x = getCookie("users");
-    if (x) console.log("@@@@@@@@@@@@:", JSON.parse(x));
-  }, []);
-
-  useEffect(() => {
     const getLocal = getCookie(cookieName);
     if (getLocal) {
       setLocalUnit(JSON.parse(getLocal));
@@ -69,8 +60,6 @@ const Header = (props: any) => {
               }
             }}
           />
-          {/* X
-          </button> */}
         </Links>
       </AppHeader>
     </div>

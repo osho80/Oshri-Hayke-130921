@@ -14,6 +14,7 @@ import {
   setLocation,
   removeCity,
   setUnit,
+  addCity,
 } from "../store/actions";
 import Current from "../components/Current";
 import Forecast from "../components/Forecast";
@@ -21,20 +22,41 @@ import Forecast from "../components/Forecast";
 import { City, DailyForecast, CityProps } from "../types/types";
 
 const Home = (props: any) => {
-  const [cities, setCities] = useState<[] | City[]>([]);
+  const [inputCities, setInputCities] = useState<[] | City[]>([]);
+
   const [city, setCity] = useState<null | string>(null);
   const [cityCode, setCityCode] = useState<null | string>(null);
+
+  const [currCity, setCurrCity] = useState<null | { id: string; name: string }>(
+    null
+  );
+
   const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
   const [isDark, setDarkMode] = useState<null | boolean>(null);
 
   useEffect(() => {
-    props.getCurrentLocation();
-    if (props.currLocation.id) {
-      setCityCode(props.currLocation.id);
-      setCity(props.currLocation.name);
+    if (props.favCities.length <= 0) {
+      props.getCurrentLocation();
+      if (props.currLocation.id) {
+        setCurrCity({
+          id: props.currLocation.id,
+          name: props.currLocation.name,
+        });
+        // setCityCode(props.currLocation.id);
+        // setCity(props.currLocation.name);
+      }
     }
     setDarkMode(props.isDark);
   }, [props]);
+
+  // useEffect(() => {
+  //   props.getCurrentLocation();
+  //   if (props.currLocation.id) {
+  //     setCityCode(props.currLocation.id);
+  //     setCity(props.currLocation.name);
+  //   }
+  //   setDarkMode(props.isDark);
+  // }, [props]);
 
   useEffect(() => {
     // getCurrentWeather(cityCode);
@@ -48,23 +70,27 @@ const Home = (props: any) => {
   }, [cityCode]);
 
   const handleChange = async (e: any) => {
-    console.log(e.target.value);
     const q = e.target.value;
     if (q) {
       const data = await queryCity(q);
-      setCities(data);
+      setInputCities(data);
     }
   };
 
-  const selectCity = ({ cityCode, cityName }: CityProps) => {
-    setCityCode(cityCode); // perhaps unnecessary
-    setCity(cityName); // perhaps unnecessary
-    props.setLocation({ id: cityCode, name: cityName });
+  const selectCity = ({ id, name }: CityProps) => {
+    // setCityCode(cityCode); // perhaps unnecessary
+    // setCity(cityName); // perhaps unnecessary
+    // console.log("My selectCity params:", id, name);
+
+    setCurrCity({ id, name });
+    const location = { id, name };
+    console.log("My selectCity location:", location);
+    props.setLocation(location);
   };
 
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
-  console.log("My cities:", cities);
+  console.log("My cities:", inputCities);
   console.log("My city:", city);
   console.log("My code:", cityCode);
   console.log("My forecast:", forecast);
@@ -81,17 +107,17 @@ const Home = (props: any) => {
           placeholder="search a city"
           onChange={(e) => handleChange(e)}
         />
-        {cities.length > 0 && (
+        {inputCities.length > 0 && (
           <div className="cities">
-            {cities.map((city, idx) => {
+            {inputCities.map((city, idx) => {
               return (
                 <div
                   key={idx}
                   className="city-item"
                   onClick={() =>
                     selectCity({
-                      cityCode: city.Key,
-                      cityName: city.LocalizedName,
+                      id: city.Key,
+                      name: city.LocalizedName,
                     })
                   }
                 >
@@ -104,7 +130,7 @@ const Home = (props: any) => {
         <Container className="main-contaier">
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} sm={12} md={6}>
-              <Current />
+              <Current city={currCity} />
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
               <ForecastContainer>
@@ -149,6 +175,7 @@ const ForecastContainer = styled.div`
 const mapStateToProps = (state: any) => {
   return {
     currLocation: state.appStore.currLocation,
+    favCities: state.appStore.favCities,
     tempUnit: state.appStore.tempUnit,
     isDark: state.appStore.isDark,
   };
@@ -157,6 +184,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
   getCurrentLocation,
   setLocation,
+  addCity,
   removeCity,
   setUnit,
 };

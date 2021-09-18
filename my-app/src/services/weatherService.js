@@ -42,7 +42,7 @@ export const getCurrentWeather = async (cityCode) => {
   }
 };
 
-export const getForecast = async (cityCode, metric) => {
+export const getForecast = async (cityCode) => {
   try {
     // const query = `${BASE_URL}forecast/${cityCode}`;
     const query = BASE_URL + "forecast/" + cityCode;

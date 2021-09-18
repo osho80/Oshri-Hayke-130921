@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import UnitIcon from "./UnitIcon";
 
-const Temperature = (props: { temp: number }) => {
+const Temperature = (props: { temp: number | null }) => {
   //   const [currUnit, setCurrUnit] = useState<null | string>(null);
   //   useEffect(() => {
   //     const currUnit = props.tempUnit;
@@ -18,8 +18,12 @@ const Temperature = (props: { temp: number }) => {
 
   return (
     <Temp>
-      <h3>{props.temp}</h3>
-      <UnitIcon />
+      {props.temp && (
+        <>
+          <h3>{props.temp}</h3>
+          <UnitIcon />
+        </>
+      )}
     </Temp>
   );
 };

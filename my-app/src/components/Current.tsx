@@ -3,99 +3,111 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
-
-import {
-  queryCity,
-  getCurrentWeather,
-  getForecast,
-} from "../services/weatherService";
+import { getCurrentWeather } from "../services/weatherService";
 import {
   getCurrentLocation,
   setLocation,
   removeCity,
+  addCity,
   setUnit,
 } from "../store/actions";
-
-import {
-  City,
-  DailyForecast,
-  CityProps,
-  CurrentConditions,
-} from "../types/types";
+import { CityProps, CurrentConditions } from "../types/types";
+import { setCookie, getCookie } from "../services/cookieService";
 
 const Current = (props: any) => {
-  const [city, setCity] = useState<null | string>(null);
-  const [cityCode, setCityCode] = useState<null | string>(null);
-  const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
-  const [currWeather, setCurrWeather] = useState(null);
+  const [currWeather, setCurrWeather] = useState<[] | CurrentConditions[]>([]);
+  const [isFav, setFavourite] = useState(false);
 
   useEffect(() => {
-    props.getCurrentLocation();
-    if (props.currLocation.id) {
-      setCityCode(props.currLocation.id);
-      setCity(props.currLocation.name);
+    if (props.city && props.city.id) {
+      const getCurrWeatherData = async () => {
+        // if (props.city && props.city.id) {
+        const currConditions = await getCurrentWeather(props.city.id);
+        console.log("My currConditions:", currConditions);
+        setCurrWeather(currConditions);
+      };
+      // getCurrWeatherData();
+      if (props.favCities.length > 0) {
+        const isFav = props.favCities.find(
+          (city: CityProps) => city.id === props.city.id
+        );
+        if (isFav) setFavourite(true);
+      }
     }
+
+    // const getForecastData = async () => {
+    //   if (props.city && props.city.id) {
+    //     const forecast = await getForecast(props.city.id);
+    //     console.log("My forecast:", forecast);
+    //     setForecast(forecast.DailyForecasts);
+    //   }
+    // };
+
+    // getForecastData();
   }, [props]);
 
-  useEffect(() => {
-    // getCurrentWeather(cityCode);
-    // const forecastData = async () => {
-    //   const forecast = await getForecast(cityCode, false);
-    //   // console.log("My forecast:", forecast);
-    //   setForecast(forecast.DailyForecasts);
-    // };
-    // forecastData();
-    console.log("Bring function back");
-  }, [cityCode]);
-
-  const isFav = false;
-  const isDay = true;
+  const getDayTime = () => {
+    if (!currWeather || !currWeather[0]) return null;
+    else return currWeather[0].isDayTime;
+  };
+  const isDay = getDayTime();
   const heartIconSrc = isFav
     ? "../assets/images/red-heart.png"
     : "../assets/images/outlined-heart_white.png";
   const heartTitle = isFav ? "Remove from favourites" : "Add to favourites";
   const containerBgc = isDay ? "#174385" : "#344463";
+  const temp = () => {
+    if (!currWeather || !currWeather[0]) return null;
+    else {
+      const currTemp =
+        props.tempUnit === "c"
+          ? currWeather[0].Temperature.Metric.Value
+          : currWeather[0].Temperature.Imperial.Value;
+      return Math.round(currTemp);
+    }
+  };
+  const cookieName = "favCities";
 
-  console.log("My city:", city);
-  console.log("My code:", cityCode);
+  console.log("@@@@@:", props.city);
+  console.log("@@@@@favCities:", props.favCities);
 
   return (
-    // <Container className="main-contaier">
-    //   <Grid container spacing={4} alignItems="center">
-    //     <Grid item xs={12} sm={12} md={6}>
     <DailyContaier style={{ backgroundColor: containerBgc }}>
-      {city && (
+      {props.city && props.city.name && (
         <CardTitle>
           <LikeBtn
             src={heartIconSrc}
             title={heartTitle}
             alt=""
-            onClick={() => console.log("add to favourites")}
+            onClick={() => {
+              console.log("add to favourites");
+              if (isFav) {
+                console.log("Removing city:", props.city);
+                removeCity(props.city);
+              } else {
+                console.log("Adding city:", props.city);
+                addCity(props.city);
+              }
+              setFavourite(!isFav);
+            }}
           />
-          <h2>{city}</h2>
+          <h2>{props.city.name}</h2>
         </CardTitle>
       )}
-      <TempAndCondition>
-        {/* <Temp>
-          <h3>27</h3>
-          <UnitIcon
-            src={unitIconSrc}
-            title={unitTitle}
-            alt="Toggle Celsius / Fahrenheit"
-            onClick={() => console.log("Toggle Celsius / Fahrenheit")}
-          />
-        </Temp> */}
-        <Temperature temp={23} />
-        <ConditionIcon idx={1} />
-      </TempAndCondition>
-      <ConditionText>Clear</ConditionText>
+      {currWeather && (
+        <>
+          <TempAndCondition>
+            <Temperature temp={temp()} />
+            {currWeather[0] && currWeather[0].WeatherIcon && (
+              <ConditionIcon idx={currWeather[0].WeatherIcon} />
+            )}
+          </TempAndCondition>
+          {currWeather[0] && currWeather[0].WeatherText && (
+            <ConditionText>{currWeather[0].WeatherText}</ConditionText>
+          )}
+        </>
+      )}
     </DailyContaier>
-    //     {/* </Grid>
-    //     <Grid item xs={12} sm={12} md={6}>
-    //       <div className="forecast-contaier"></div>
-    //     </Grid>
-    //   </Grid>
-    // </Container> */}
   );
 };
 
@@ -129,17 +141,6 @@ const TempAndCondition = styled.div`
   justify-content: space-around;
 `;
 
-const Temp = styled.div`
-  ${flexAlignCenter}
-`;
-
-const UnitIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  ${cursorPointer};
-  margin-left: 10px;
-`;
-
 const ConditionText = styled.div`
   padding-bottom: 20px;
 `;
@@ -148,6 +149,7 @@ const mapStateToProps = (state: any) => {
   return {
     currLocation: state.appStore.currLocation,
     tempUnit: state.appStore.tempUnit,
+    favCities: state.appStore.favCities,
   };
 };
 
@@ -155,6 +157,7 @@ const mapDispatchToProps = {
   getCurrentLocation,
   setLocation,
   removeCity,
+  addCity,
   setUnit,
 };
 

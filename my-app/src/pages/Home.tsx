@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, ClickAwayListener } from "@material-ui/core";
 import styled from "styled-components";
 import { darkTheme, lightTheme } from "../theme";
 
@@ -19,7 +19,7 @@ const Home = (props: any) => {
   );
 
   useEffect(() => {
-    if (props.favCities.length <= 0) {
+    if (props.favCities.length < 1) {
       setCurrCity({ id: "215854", name: "Tel Aviv" });
     } else {
       setCurrCity(props.favCities[0]);
@@ -41,6 +41,17 @@ const Home = (props: any) => {
     setOpen(false);
   };
 
+  const handleClickAway = () => setOpen(false);
+
+  const mockData = [
+    { Key: "364548", LocalizedName: "hfyfyy" },
+    { Key: "785785", LocalizedName: "hgjt" },
+    { Key: "756554", LocalizedName: "gjhsgsg" },
+    { Key: "kjshsk", LocalizedName: "kjshsk" },
+    { Key: "674764674", LocalizedName: "7gsjkgkhk" },
+    { Key: "785872", LocalizedName: "gksgdutdugg" },
+  ];
+
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
   return (
@@ -55,25 +66,29 @@ const Home = (props: any) => {
             placeholder="search a city"
             onChange={(e) => handleChange(e)}
           />
-          {inputCities.length > 0 && isOpen && (
-            <CitiesList>
-              {inputCities.map((city, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className="city-item"
-                    onClick={() =>
-                      selectCity({
-                        id: city.Key,
-                        name: city.LocalizedName,
-                      })
-                    }
-                  >
-                    <Option>{city.LocalizedName}</Option>
-                  </div>
-                );
-              })}
-            </CitiesList>
+          {/* {inputCities.length > 0 && isOpen && ( */}
+          {mockData.length > 0 && isOpen && (
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <CitiesList>
+                {/* {inputCities.map((city, idx) => { */}
+                {mockData.map((city, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      className="city-item"
+                      onClick={() =>
+                        selectCity({
+                          id: city.Key,
+                          name: city.LocalizedName,
+                        })
+                      }
+                    >
+                      <Option>{city.LocalizedName}</Option>
+                    </div>
+                  );
+                })}
+              </CitiesList>
+            </ClickAwayListener>
           )}
         </CitySearch>
         <Container className="main-contaier">

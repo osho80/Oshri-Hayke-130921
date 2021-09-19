@@ -26,7 +26,7 @@ const Forecast = (props: any) => {
 
   const renderForecast =
     forecast.length === 0 ? (
-      <Loading>Loading...</Loading>
+      <Loading>Loading Forecast for next 5 Days...</Loading>
     ) : (
       <ForecastContainer>
         {forecast.map((daily, idx) => {

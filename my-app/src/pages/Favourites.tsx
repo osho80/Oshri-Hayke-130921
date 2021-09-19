@@ -18,7 +18,7 @@ const Favourites = (props: any) => {
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
 
-  if (favCities.length <= 0) {
+  if (favCities.length < 1) {
     return (
       <FavouritesContainer style={divStyle}>
         <Message style={{ color: txtColor }}>

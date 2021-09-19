@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "production") {
 app.get("/api/cities/:q", getCities);
 app.get("/api/currentWeather/:cityCode", getCurrentWeather);
 app.get("/api/forecast/:cityCode", getForecast);
-app.get("/api/f/forecast/:cityCode", getFarenheitForecast);
+app.get("/api/f/forecast/:cityCode", getFahrenheitForecast);
 app.listen(port, () => {
   console.log("Server is running on port: " + port);
 });

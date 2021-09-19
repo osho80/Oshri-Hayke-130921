@@ -22,29 +22,45 @@ const Forecast = (props: any) => {
       getForecastData();
     }
   }, [props]);
-  const renderForecast = !forecast ? (
-    <h2>Loading...</h2>
-  ) : (
-    <ForecastContainer>
-      {forecast.map((daily, idx) => {
-        return (
-          <DayForecast key={idx}>
-            <Day>{moment(daily.Date).format("ddd")}</Day>
-            <Temperature temp={Math.round(daily.Temperature.Minimum.Value)} />
-            <ConditionIcon idx={daily.Night.Icon} />
-            <ConditionText>{daily.Night.IconPhrase}</ConditionText>
-            <TempSeperator> / </TempSeperator>
-            <Temperature temp={Math.round(daily.Temperature.Maximum.Value)} />
-            <ConditionIcon idx={daily.Day.Icon} />
-            <ConditionText>{daily.Day.IconPhrase}</ConditionText>
-          </DayForecast>
-        );
-      })}
-    </ForecastContainer>
-  );
+  console.log("My forecast:", forecast);
+
+  const renderForecast =
+    forecast.length === 0 ? (
+      <Loading>Loading...</Loading>
+    ) : (
+      <ForecastContainer>
+        {forecast.map((daily, idx) => {
+          return (
+            <DayForecast key={idx}>
+              <Day>{moment(daily.Date).format("ddd")}</Day>
+              <Conditions>
+                <Min>
+                  <Temperature
+                    temp={Math.round(daily.Temperature.Minimum.Value)}
+                  />
+                  <ConditionIcon idx={daily.Night.Icon} />
+                  <ConditionText>{daily.Night.IconPhrase}</ConditionText>
+                </Min>
+                <TempSeperator> / </TempSeperator>
+                <Max>
+                  <Temperature
+                    temp={Math.round(daily.Temperature.Maximum.Value)}
+                  />
+                  <ConditionIcon idx={daily.Day.Icon} />
+                  <ConditionText>{daily.Day.IconPhrase}</ConditionText>
+                </Max>
+              </Conditions>
+            </DayForecast>
+          );
+        })}
+      </ForecastContainer>
+    );
   return renderForecast;
 };
 
+const Loading = styled.h2`
+  color: #ed8224;
+`;
 const ForecastContainer = styled.div`
   background-color: #61dafb;
   padding: 0 20px;
@@ -53,11 +69,28 @@ const ForecastContainer = styled.div`
 const DayForecast = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 5px 0 0;
 `;
 const Day = styled.p`
   padding-right: 20px;
+  color: white;
+  @media (max-width: 400px) {
+    margin-right: 20px;
+  }
 `;
+
+const Conditions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+const Min = styled.div`
+  display: flex;
+`;
+const Max = styled.div`
+  display: flex;
+`;
+
 const ConditionText = styled.p`
   font-weight: bold;
   font-size: 18px;
@@ -68,6 +101,10 @@ const ConditionText = styled.p`
 `;
 const TempSeperator = styled.p`
   padding: 0 20px;
+  color: white;
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const mapStateToProps = (state: any) => {

@@ -78,10 +78,10 @@ const Home = (props: any) => {
         </CitySearch>
         <Container className="main-contaier">
           <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} sm={12} md={6}>
+            <Grid item xs={12} sm={12} md={12} xl={6}>
               <Current city={currCity} />
             </Grid>
-            <Grid item xs={12} sm={12} md={6}>
+            <Grid item xs={12} sm={12} md={12} xl={6}>
               <Forecast city={currCity} />
             </Grid>
           </Grid>

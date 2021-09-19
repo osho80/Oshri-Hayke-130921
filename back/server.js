@@ -7,11 +7,7 @@ const {
   getCurrentWeather,
   getForecast,
   getFahrenheitForecast,
-} = require("./weatherService");
-// const { getCities } = require("./api/cities/service");
-// const { getCurrentWeather } = require("./api/currentWeather/service");
-// const { getForecast } = require("./api/forecast/service");
-// const { getFarenheitForecast } = require("./api/f/forecast/service");
+} = require("./api/weatherService");
 const port = process.env.PORT || 3030;
 
 const app = express();

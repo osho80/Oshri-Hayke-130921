@@ -10,12 +10,6 @@ export function removeCity(id) {
   };
 }
 
-export function setCities(citiesArr) {
-  return (dispatch) => {
-    dispatch(_setCities(citiesArr));
-  };
-}
-
 export function setUnit(unit) {
   return (dispatch) => {
     dispatch(_setUnit(unit));
@@ -34,10 +28,6 @@ const _addCity = (city) => {
 
 const _removeCity = (id) => {
   return { type: "REMOVE_CITY", id };
-};
-
-const _setCities = (citiesArr) => {
-  return { type: "SET_CITIES", citiesArr };
 };
 
 const _setUnit = (unit) => {

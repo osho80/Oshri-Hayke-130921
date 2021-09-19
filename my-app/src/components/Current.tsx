@@ -51,7 +51,6 @@ const Current = (props: any) => {
       return Math.round(currTemp);
     }
   };
-  console.log("Current - isFav:", isFav);
 
   return (
     <DailyContaier style={{ backgroundColor: containerBgc }}>

@@ -22,7 +22,6 @@ const Forecast = (props: any) => {
       getForecastData();
     }
   }, [props]);
-  console.log("My forecast:", forecast);
 
   const renderForecast =
     forecast.length === 0 ? (

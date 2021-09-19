@@ -48,6 +48,7 @@ const Forecast = (props: any) => {
 const ForecastContainer = styled.div`
   background-color: #61dafb;
   padding: 0 20px;
+  border-radius: 8px;
 `;
 const DayForecast = styled.div`
   display: flex;
@@ -58,7 +59,9 @@ const Day = styled.p`
   padding-right: 20px;
 `;
 const ConditionText = styled.p`
-  //under 540 hide
+  @media (max-width: 540px) {
+    display: none;
+  }
 `;
 const TempSeperator = styled.p`
   padding: 0 20px;

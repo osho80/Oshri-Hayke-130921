@@ -6,7 +6,7 @@ import ConditionIcon from "./ConditionIcon";
 import { getCurrentWeather } from "../services/weatherService";
 import { removeCity, addCity, setUnit } from "../store/actions";
 import { CityProps, CurrentConditions } from "../types/types";
-import { setCookie, AddCityToCookie } from "../services/cookieService";
+import { setCookie } from "../services/cookieService";
 
 const Current = (props: any) => {
   const [currWeather, setCurrWeather] = useState<[] | CurrentConditions[]>([]);
@@ -51,6 +51,11 @@ const Current = (props: any) => {
     }
   };
 
+  const updateFavCities = () => {
+    const newCities = JSON.stringify(props.favCities);
+    setCookie(cookieName, newCities, 60);
+  };
+
   return (
     <DailyContaier style={{ backgroundColor: containerBgc }}>
       {props.city && props.city.name && (
@@ -60,13 +65,12 @@ const Current = (props: any) => {
             title={heartTitle}
             alt=""
             onClick={async () => {
-              console.log("add to favourites");
               if (isFav) {
-                console.log("Removing city:", props.city);
                 props.removeCity(props.city.id);
+                updateFavCities();
               } else {
-                AddCityToCookie(cookieName, props.city);
-                props.addCity(props.city);
+                await props.addCity(props.city);
+                updateFavCities();
               }
               setFavourite(!isFav);
             }}
@@ -103,6 +107,7 @@ const flexAlignCenter = `
 const DailyContaier = styled.div`
   color: white;
   max-height: 50vh;
+  border-radius: 8px;
 `;
 
 const CardTitle = styled.div`

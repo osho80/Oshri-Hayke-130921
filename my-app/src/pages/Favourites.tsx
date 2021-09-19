@@ -12,32 +12,46 @@ const Favourites = (props: any) => {
   const [favCities, setFavCities] = useState<[] | CityProps[]>([]);
 
   useEffect(() => {
-    const storeCities = props.favCities;
-    setFavCities(storeCities);
+    setFavCities(props.favCities);
   }, [props, favCities]);
+
+  const x = [
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+    { id: "215854", name: "gasfsjkfhkjas hfkjsdhfskjdhf ksdjhf " },
+  ];
 
   if (favCities.length <= 0) {
     return (
       <FavouritesContainer>
-        <h2>Your List is Empty</h2>
-        <p>
-          Go back to <Link to="/">home page</Link> and add cities to your
-          favourites
-        </p>
+        <Message>
+          <h2>Your List is Empty</h2>
+          <p>
+            Go back to <Link to="/">home page</Link> and add cities to your
+            favourites
+          </p>
+        </Message>
       </FavouritesContainer>
     );
   } else {
     return (
       <FavouritesContainer>
-        <Container className="main-contaier">
-          {/* <Grid container spacing={4} alignItems="center"> */}
-          <Grid item xs={12} sm={12} md={6}>
-            {favCities.map((city) => {
-              return <Current city={city} />;
-            })}
-          </Grid>
-          {/* </Grid> */}
-        </Container>
+        {x.map((city) => {
+          // {favCities.map((city) => {
+          return (
+            <CityCard>
+              <Current city={city} />
+            </CityCard>
+          );
+        })}
       </FavouritesContainer>
     );
   }
@@ -45,6 +59,24 @@ const Favourites = (props: any) => {
 
 const FavouritesContainer = styled.div`
   min-height: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const Message = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: center;
+`;
+
+const CityCard = styled.div`
+  min-width: 30%;
+  margin: 0 5%;
+  @media (max-width: 1100px) {
+    margin: 2% 5%;
+  }
 `;
 
 const mapStateToProps = (state: any) => {

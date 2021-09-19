@@ -1,11 +1,17 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-
-const { getCities } = require("./api/cities/service");
-const { getCurrentWeather } = require("./api/currentWeather/service");
-const { getForecast } = require("./api/forecast/service");
-const { getFarenheitForecast } = require("./api/f/forecast/service");
+const {
+  getCities,
+  getCurrentWeather,
+  getForecast,
+  getFahrenheitForecast,
+} = require("./weatherService");
+// const { getCities } = require("./api/cities/service");
+// const { getCurrentWeather } = require("./api/currentWeather/service");
+// const { getForecast } = require("./api/forecast/service");
+// const { getFarenheitForecast } = require("./api/f/forecast/service");
 const port = process.env.PORT || 3030;
 
 const app = express();

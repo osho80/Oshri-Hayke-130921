@@ -4,25 +4,15 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import UnitIcon from "./UnitIcon";
 import { darkTheme, lightTheme } from "../theme";
-import { setCookie, getCookie } from "../services/cookieService";
+import { setCookie } from "../services/cookieService";
 import { setMode } from "../store/actions";
 
 const Header = (props: any) => {
   const [isDark, setDarkMode] = useState<null | boolean>(null);
-  const [localUnit, setLocalUnit] = useState<null | boolean>(null);
-  const cookieName = "darkMode";
+  const cookieName = "isDark";
 
   useEffect(() => {
-    const getLocal = getCookie(cookieName);
-    if (getLocal) {
-      setLocalUnit(JSON.parse(getLocal));
-      props.setMode(JSON.parse(getLocal));
-    }
-  }, []);
-
-  useEffect(() => {
-    const storeUnit = props.isDark;
-    setDarkMode(storeUnit);
+    setDarkMode(props.isDark);
   }, [props, isDark]);
 
   const divStyle = isDark ? darkTheme : lightTheme;

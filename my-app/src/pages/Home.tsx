@@ -55,8 +55,6 @@ const Home = (props: any) => {
   ];
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
-  console.log("My cities:", inputCities);
-  console.log("My props:", props);
   return (
     <div style={divStyle}>
       <HomeContainer>

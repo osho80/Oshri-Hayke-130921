@@ -13,6 +13,26 @@ export const getCookie = (cName) => {
   cArr.forEach((val) => {
     if (val.indexOf(name) === 0) res = val.substring(name.length);
   });
-  console.log("My res Cookie @ cookieService:", res);
   return res;
+};
+export const AddCityToCookie = (cookieName, city) => {
+  console.log("My saveCity:", cookieName, city);
+  const getCookieData = getCookieValues();
+  const { favCities } = getCookieData;
+  console.log("My saveCity - cities:", JSON.parse(favCities));
+  console.log("My saveCity - getCookieData:", getCookieData);
+};
+
+export const getCookieValues = () => {
+  const cDecoded = decodeURIComponent(document.cookie);
+  const { isDark, tempUnit, favCities } = Object.fromEntries(
+    cDecoded.split("; ").map((val) => val.split("="))
+  );
+  return { isDark, tempUnit, favCities };
+};
+
+export const DelCityFromCookie = (cookieName, city) => {
+  console.log("My saveCity:", cookieName, city);
+  const { favCities } = getCookieValues();
+  console.log("My saveCity - cities:", JSON.parse(favCities));
 };

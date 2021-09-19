@@ -7,9 +7,8 @@ export function addCity(city) {
 }
 
 export function removeCity(id) {
-  //city
   return (dispatch) => {
-    dispatch(_removeCity(id)); //city
+    dispatch(_removeCity(id));
   };
 }
 
@@ -36,8 +35,7 @@ const _addCity = (city) => {
 };
 
 const _removeCity = (id) => {
-  // city
-  return { type: "REMOVE_CITY", id }; // city
+  return { type: "REMOVE_CITY", id };
 };
 
 const _setCities = (citiesArr) => {

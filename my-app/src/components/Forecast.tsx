@@ -19,7 +19,7 @@ const Forecast = (props: any) => {
             : await getFarenheitForecast(props.city.id);
         setForecast(forecast.DailyForecasts);
       };
-      getForecastData();
+      // getForecastData();
     }
   }, [props]);
   const renderForecast = !forecast ? (

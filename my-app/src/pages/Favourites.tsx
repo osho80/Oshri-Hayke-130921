@@ -2,30 +2,14 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-// import UnitIcon from "./UnitIcon";
+import { Container, Grid } from "@material-ui/core";
+import { CityProps } from "../types/types";
 import { darkTheme, lightTheme } from "../theme";
-import { setCookie, getCookie } from "../services/cookieService";
-import { addCity, removeCity, setCities } from "../store/actions";
+// import { setCookie } from "../services/cookieService";
+import { removeCity } from "../store/actions";
 import Current from "../components/Current";
 const Favourites = (props: any) => {
-  const [favCities, setFavCities] = useState<
-    [] | { id: string; name: string }[]
-  >([]);
-  const [localCities, setLocalCities] = useState<
-    null | { id: string; name: string }[]
-  >(null);
-  const cookieName = "favCities";
-  console.log("My Favourites props", props);
-
-  useEffect(() => {
-    if (props.favCities.length <= 0) {
-      const getLocal = getCookie(cookieName);
-      if (getLocal) {
-        setLocalCities(JSON.parse(getLocal));
-        props.setCities(JSON.parse(getLocal));
-      }
-    }
-  }, []);
+  const [favCities, setFavCities] = useState<[] | CityProps[]>([]);
 
   useEffect(() => {
     const storeCities = props.favCities;
@@ -45,9 +29,15 @@ const Favourites = (props: any) => {
   } else {
     return (
       <FavouritesContainer>
-        {favCities.map((city) => {
-          return <h1>hello</h1>;
-        })}
+        <Container className="main-contaier">
+          {/* <Grid container spacing={4} alignItems="center"> */}
+          <Grid item xs={12} sm={12} md={6}>
+            {favCities.map((city) => {
+              return <Current city={city} />;
+            })}
+          </Grid>
+          {/* </Grid> */}
+        </Container>
       </FavouritesContainer>
     );
   }
@@ -66,9 +56,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-  addCity,
   removeCity,
-  setCities,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

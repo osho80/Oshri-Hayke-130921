@@ -6,7 +6,7 @@ import ConditionIcon from "./ConditionIcon";
 import { getCurrentWeather } from "../services/weatherService";
 import { removeCity, addCity, setUnit } from "../store/actions";
 import { CityProps, CurrentConditions } from "../types/types";
-import { setCookie, getCookie } from "../services/cookieService";
+import { setCookie, AddCityToCookie } from "../services/cookieService";
 
 const Current = (props: any) => {
   const [currWeather, setCurrWeather] = useState<[] | CurrentConditions[]>([]);
@@ -18,7 +18,7 @@ const Current = (props: any) => {
         const currConditions = await getCurrentWeather(props.city.id);
         setCurrWeather(currConditions);
       };
-      getCurrWeatherData();
+      // getCurrWeatherData();
       if (props.favCities.length > 0) {
         const isFav = props.favCities.find(
           (city: CityProps) => city.id === props.city.id
@@ -27,6 +27,8 @@ const Current = (props: any) => {
       }
     }
   }, [props]);
+
+  const cookieName = "favCities";
 
   const getDayTime = () => {
     if (!currWeather || !currWeather[0]) return null;
@@ -48,7 +50,6 @@ const Current = (props: any) => {
       return Math.round(currTemp);
     }
   };
-  const cookieName = "favCities";
 
   return (
     <DailyContaier style={{ backgroundColor: containerBgc }}>
@@ -64,6 +65,7 @@ const Current = (props: any) => {
                 console.log("Removing city:", props.city);
                 props.removeCity(props.city.id);
               } else {
+                AddCityToCookie(cookieName, props.city);
                 props.addCity(props.city);
               }
               setFavourite(!isFav);

@@ -2,19 +2,11 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { setUnit } from "../store/actions";
-import { setCookie, getCookie } from "../services/cookieService";
+import { setCookie } from "../services/cookieService";
 
 const UnitIcon = (props: any) => {
   const [currUnit, setCurrUnit] = useState<null | string>(null);
-  const [localUnit, setLocalUnit] = useState("");
-  const cookieName = "unit";
-  useEffect(() => {
-    const getLocal = getCookie(cookieName);
-    if (getLocal) {
-      setLocalUnit(getLocal);
-      props.setUnit(getLocal);
-    }
-  }, []);
+  const cookieName = "tempUnit";
 
   useEffect(() => {
     const storeUnit = props.tempUnit;
@@ -27,7 +19,6 @@ const UnitIcon = (props: any) => {
     ? `../assets/images/celsius${isWhite}.png`
     : `../assets/images/fahrenheit${isWhite}.png`;
   const unitTitle = isCels ? "Change to Fahrenheit" : "Change to Celsius";
-  console.log("Unit Icon - isDark:", props.isDark);
 
   return (
     <Unit

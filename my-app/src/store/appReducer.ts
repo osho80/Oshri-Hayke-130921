@@ -1,12 +1,20 @@
+import { getCookieValues } from "../services/cookieService";
+
 interface AppState {
   favCities: [] | { id: string; name: string }[];
   tempUnit: string;
   isDark: boolean;
 }
+const data = getCookieValues();
+const { favCities, tempUnit, isDark } = data;
+const darkMode = isDark ? JSON.parse(isDark) : false;
+const unit = tempUnit ? tempUnit : "c";
+const cities = favCities ? JSON.parse(favCities) : [];
+
 const initialState: AppState = {
-  favCities: [],
-  tempUnit: "c",
-  isDark: false,
+  favCities: cities,
+  tempUnit: unit,
+  isDark: darkMode,
 };
 
 const appReducer = (state = initialState, action: any) => {
@@ -16,7 +24,7 @@ const appReducer = (state = initialState, action: any) => {
         ...state,
         favCities: [...state.favCities, action.city],
       };
-    case " REMOVE_CITY":
+    case "REMOVE_CITY":
       return {
         ...state,
         favCities: state.favCities.filter((city) => city.id !== action.id),

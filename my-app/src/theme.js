@@ -7,7 +7,3 @@ export const lightTheme = {
   backgroundColor: "#ffffff",
   color: "#000000",
 };
-// export const lightTheme = `
-//     background-color: #ffffff;
-//     color: #000000;
-// `;

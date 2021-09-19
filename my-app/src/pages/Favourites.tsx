@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { darkTheme, lightTheme } from "../theme";
 import { setCookie, getCookie } from "../services/cookieService";
 import { addCity, removeCity, setCities } from "../store/actions";
-
+import Current from "../components/Current";
 const Favourites = (props: any) => {
   const [favCities, setFavCities] = useState<
     [] | { id: string; name: string }[]

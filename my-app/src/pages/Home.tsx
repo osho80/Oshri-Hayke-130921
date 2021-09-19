@@ -4,18 +4,8 @@ import { Container, Grid } from "@material-ui/core";
 import styled from "styled-components";
 import { darkTheme, lightTheme } from "../theme";
 
-import {
-  queryCity,
-  getCurrentWeather,
-  getForecast,
-} from "../services/weatherService";
-import {
-  getCurrentLocation,
-  setLocation,
-  removeCity,
-  setUnit,
-  addCity,
-} from "../store/actions";
+import { queryCity } from "../services/weatherService";
+import { getCurrentLocation, setLocation } from "../store/actions";
 import Current from "../components/Current";
 import Forecast from "../components/Forecast";
 
@@ -133,13 +123,7 @@ const Home = (props: any) => {
               <Current city={currCity} />
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
-              <ForecastContainer>
-                <Forecast />
-                <Forecast />
-                <Forecast />
-                <Forecast />
-                <Forecast />
-              </ForecastContainer>
+              <Forecast city={currCity} />
             </Grid>
           </Grid>
         </Container>
@@ -168,10 +152,6 @@ const CitySearch = styled.input`
   margin-bottom: 30px;
 `;
 
-const ForecastContainer = styled.div`
-  // height: 70vh;
-`;
-
 const mapStateToProps = (state: any) => {
   return {
     currLocation: state.appStore.currLocation,
@@ -184,9 +164,6 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {
   getCurrentLocation,
   setLocation,
-  addCity,
-  removeCity,
-  setUnit,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

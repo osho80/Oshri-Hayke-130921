@@ -147,9 +147,9 @@ const ConditionText = styled.div`
 
 const mapStateToProps = (state: any) => {
   return {
-    currLocation: state.appStore.currLocation,
+    currLocation: state.appStore.currLocation, // remove
     tempUnit: state.appStore.tempUnit,
-    favCities: state.appStore.favCities,
+    favCities: state.appStore.favCities, //remove
   };
 };
 
@@ -162,5 +162,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Current);
-
-// "../../../public/assets/images/outlined-heart.png"

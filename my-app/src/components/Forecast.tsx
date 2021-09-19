@@ -1,58 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import moment from "moment";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
-
 import { getForecast } from "../services/weatherService";
-import {
-  getCurrentLocation,
-  setLocation,
-  removeCity,
-  setUnit,
-} from "../store/actions";
-
-import {
-  City,
-  DailyForecast,
-  CityProps,
-  CurrentConditions,
-} from "../types/types";
+import { DailyForecast } from "../types/types";
 
 const Forecast = (props: any) => {
-  const isFav = false;
-  const isCels = true;
-  const isDay = true;
-  const heartIconSrc = isFav
-    ? "../assets/images/red-heart.png"
-    : "../assets/images/outlined-heart.png";
-  const heartTitle = isFav ? "Remove from favourites" : "Add to favourites";
-  const unitIconSrc = isCels
-    ? "../assets/images/celsius.png"
-    : "../assets/images/celsius.png";
-  const unitTitle = isCels ? "Change to Fahrenheit" : "Change to Celsius";
-  const containerBgc = isDay ? "#174385" : "#344463";
+  const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
+
+  useEffect(() => {
+    if (props.city && props.city.id) {
+      const getForecastData = async () => {
+        // if (props.tempUnit)
+        const forecast = await getForecast(props.city.id);
+        console.log("My forecast:", forecast);
+        setForecast(forecast.DailyForecasts);
+      };
+      getForecastData();
+    }
+  }, [props]);
 
   return (
-    <ForecastContainer>
-      {/* cities.map */}
-      <DayForecast>
-        <Day>Wed</Day>
-        <Temperature temp={19} />
-        <ConditionIcon idx={1} />
-        <ConditionText>Sunny</ConditionText>
-        <TempSeperator> / </TempSeperator>
-        <Temperature temp={30} />
-        <ConditionIcon idx={41} />
-        <ConditionText>Clear</ConditionText>
-      </DayForecast>
-    </ForecastContainer>
+    forecast && (
+      <ForecastContainer>
+        {forecast.map((daily, idx) => {
+          return (
+            <DayForecast key={idx}>
+              <Day>{moment(daily.Date).format("ddd")}</Day>
+              <Temperature temp={Math.round(daily.Temperature.Minimum.Value)} />
+              <ConditionIcon idx={daily.Night.Icon} />
+              <ConditionText>{daily.Night.IconPhrase}</ConditionText>
+              <TempSeperator> / </TempSeperator>
+              <Temperature temp={Math.round(daily.Temperature.Maximum.Value)} />
+              <ConditionIcon idx={daily.Day.Icon} />
+              <ConditionText>{daily.Day.IconPhrase}</ConditionText>
+            </DayForecast>
+          );
+        })}
+      </ForecastContainer>
+    )
   );
 };
-
-const cursorPointer = `&:hover {
-    cursor: pointer;
-  }`;
 
 const ForecastContainer = styled.div`
   background-color: #61dafb;
@@ -61,27 +51,24 @@ const ForecastContainer = styled.div`
 const DayForecast = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-around;
 `;
 const Day = styled.p`
   padding-right: 20px;
 `;
-const ConditionText = styled.p``;
+const ConditionText = styled.p`
+  //under 540 hide
+`;
 const TempSeperator = styled.p`
   padding: 0 20px;
 `;
 
 const mapStateToProps = (state: any) => {
   return {
-    currLocation: state.appStore.currLocation,
     tempUnit: state.appStore.tempUnit,
   };
 };
 
-const mapDispatchToProps = {
-  getCurrentLocation,
-  setLocation,
-  removeCity,
-  setUnit,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Forecast);

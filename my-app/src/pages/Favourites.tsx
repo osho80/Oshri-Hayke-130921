@@ -8,13 +8,12 @@ import { removeCity } from "../store/actions";
 import Current from "../components/Current";
 const Favourites = (props: any) => {
   const [favCities, setFavCities] = useState<[] | CityProps[]>([]);
-  const [isDark, setDarkMode] = useState<null | boolean>(null);
 
   useEffect(() => {
     setFavCities(props.favCities);
-    setDarkMode(props.isDark);
-  }, [props, favCities]);
+  }, [props.favCities]);
 
+  const isDark = props.isDark;
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
 

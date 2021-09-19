@@ -4,12 +4,7 @@ import styled from "styled-components";
 import { darkTheme, lightTheme } from "../theme";
 
 const Footer = (props: any) => {
-  const [isDark, setDarkMode] = useState<null | boolean>(null);
-
-  useEffect(() => {
-    setDarkMode(props.isDark);
-  }, [props]);
-
+  const isDark = props.isDark;
   const divStyle = isDark ? darkTheme : lightTheme;
 
   return (

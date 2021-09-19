@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Container, Grid, ClickAwayListener } from "@material-ui/core";
 import styled from "styled-components";
 import { darkTheme, lightTheme } from "../theme";
-
 import { queryCity } from "../services/weatherService";
 import Current from "../components/Current";
 import Forecast from "../components/Forecast";
@@ -12,20 +11,10 @@ import { City, CityProps } from "../types/types";
 
 const Home = (props: any) => {
   const [inputCities, setInputCities] = useState<[] | City[]>([]);
-  const [isDark, setDarkMode] = useState<null | boolean>(null);
   const [isOpen, setOpen] = useState(false);
-  const [currCity, setCurrCity] = useState<null | { id: string; name: string }>(
-    null
+  const [currCity, setCurrCity] = useState<CityProps>(
+    props.favCities[0] || { id: "215854", name: "Tel Aviv" }
   );
-
-  useEffect(() => {
-    if (props.favCities.length < 1) {
-      setCurrCity({ id: "215854", name: "Tel Aviv" });
-    } else {
-      setCurrCity(props.favCities[0]);
-    }
-    setDarkMode(props.isDark);
-  }, [props]);
 
   const handleChange = async (e: any) => {
     if (!isOpen) setOpen(true);
@@ -43,15 +32,7 @@ const Home = (props: any) => {
 
   const handleClickAway = () => setOpen(false);
 
-  const mockData = [
-    { Key: "364548", LocalizedName: "hfyfyy" },
-    { Key: "785785", LocalizedName: "hgjt" },
-    { Key: "756554", LocalizedName: "gjhsgsg" },
-    { Key: "kjshsk", LocalizedName: "kjshsk" },
-    { Key: "674764674", LocalizedName: "7gsjkgkhk" },
-    { Key: "785872", LocalizedName: "gksgdutdugg" },
-  ];
-
+  const isDark = props.isDark;
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
   return (
@@ -66,12 +47,10 @@ const Home = (props: any) => {
             placeholder="search a city"
             onChange={(e) => handleChange(e)}
           />
-          {/* {inputCities.length > 0 && isOpen && ( */}
-          {mockData.length > 0 && isOpen && (
+          {inputCities.length > 0 && isOpen && (
             <ClickAwayListener onClickAway={handleClickAway}>
               <CitiesList>
-                {/* {inputCities.map((city, idx) => { */}
-                {mockData.map((city, idx) => {
+                {inputCities.map((city, idx) => {
                   return (
                     <div
                       key={idx}

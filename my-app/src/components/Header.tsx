@@ -8,15 +8,9 @@ import { setCookie } from "../services/cookieService";
 import { setMode } from "../store/actions";
 
 const Header = (props: any) => {
-  const [isDark, setDarkMode] = useState<null | boolean>(null);
   const cookieName = "isDark";
-
-  useEffect(() => {
-    setDarkMode(props.isDark);
-  }, [props, isDark]);
-
+  const isDark = props.isDark;
   const divStyle = isDark ? darkTheme : lightTheme;
-
   const modeIconSrc = isDark
     ? "../assets/images/darkMode2.png"
     : "../assets/images/lightMode.png";

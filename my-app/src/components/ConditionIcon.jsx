@@ -7,6 +7,8 @@ const ConditionIcon = ({ idx }) => {
   return <ConditionImage src={`../assets/images/${index}-s.png`} />;
 };
 
-const ConditionImage = styled.img``;
+const ConditionImage = styled.img`
+  width: 100px;
+`;
 
 export default ConditionIcon;

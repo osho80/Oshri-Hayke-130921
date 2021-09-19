@@ -10,7 +10,9 @@ import { setCookie } from "../services/cookieService";
 
 const Current = (props: any) => {
   const [currWeather, setCurrWeather] = useState<[] | CurrentConditions[]>([]);
-  const [isFav, setFavourite] = useState(false);
+  const isFav =
+    props.city &&
+    props.favCities.some((city: CityProps) => city.id === props.city.id);
 
   useEffect(() => {
     if (props.city && props.city.id) {
@@ -19,12 +21,6 @@ const Current = (props: any) => {
         setCurrWeather(currConditions);
       };
       getCurrWeatherData();
-      if (props.favCities.length > 0) {
-        const isFav = props.favCities.find(
-          (city: CityProps) => city.id === props.city.id
-        );
-        if (isFav) setFavourite(true);
-      }
     }
   }, [props]);
 
@@ -55,6 +51,7 @@ const Current = (props: any) => {
       return Math.round(currTemp);
     }
   };
+  console.log("Current - isFav:", isFav);
 
   return (
     <DailyContaier style={{ backgroundColor: containerBgc }}>
@@ -70,7 +67,6 @@ const Current = (props: any) => {
               } else {
                 props.addCity(props.city);
               }
-              setFavourite(!isFav);
             }}
           />
           <h2>{props.city.name}</h2>

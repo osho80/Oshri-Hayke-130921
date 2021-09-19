@@ -39,15 +39,12 @@ const Forecast = (props: any) => {
                     temp={Math.round(daily.Temperature.Minimum.Value)}
                   />
                   <ConditionIcon idx={daily.Night.Icon} />
-                  <ConditionText>{daily.Night.IconPhrase}</ConditionText>
                 </Min>
-                <TempSeperator> / </TempSeperator>
                 <Max>
                   <Temperature
                     temp={Math.round(daily.Temperature.Maximum.Value)}
                   />
                   <ConditionIcon idx={daily.Day.Icon} />
-                  <ConditionText>{daily.Day.IconPhrase}</ConditionText>
                 </Max>
               </Conditions>
             </DayForecast>
@@ -63,6 +60,8 @@ const Loading = styled.h2`
 `;
 const ForecastContainer = styled.div`
   background-color: #61dafb;
+  max-width: max-content;
+  margin: 0 auto;
   padding: 0 20px;
   border-radius: 8px;
 `;
@@ -82,6 +81,8 @@ const Day = styled.p`
 
 const Conditions = styled.div`
   display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
   flex-wrap: wrap;
 `;
 const Min = styled.div`
@@ -89,22 +90,6 @@ const Min = styled.div`
 `;
 const Max = styled.div`
   display: flex;
-`;
-
-const ConditionText = styled.p`
-  font-weight: bold;
-  font-size: 18px;
-  color: white;
-  @media (max-width: 540px) {
-    display: none;
-  }
-`;
-const TempSeperator = styled.p`
-  padding: 0 20px;
-  color: white;
-  @media (max-width: 700px) {
-    display: none;
-  }
 `;
 
 const mapStateToProps = (state: any) => {

@@ -28,6 +28,11 @@ const Current = (props: any) => {
     }
   }, [props]);
 
+  useEffect(() => {
+    const newCities = JSON.stringify(props.favCities);
+    setCookie(cookieName, newCities, 60);
+  }, [props.favCities]);
+
   const cookieName = "favCities";
 
   const getDayTime = () => {
@@ -51,11 +56,6 @@ const Current = (props: any) => {
     }
   };
 
-  const updateFavCities = () => {
-    const newCities = JSON.stringify(props.favCities);
-    setCookie(cookieName, newCities, 60);
-  };
-
   return (
     <DailyContaier style={{ backgroundColor: containerBgc }}>
       {props.city && props.city.name && (
@@ -67,10 +67,8 @@ const Current = (props: any) => {
             onClick={async () => {
               if (isFav) {
                 props.removeCity(props.city.id);
-                updateFavCities();
               } else {
-                await props.addCity(props.city);
-                updateFavCities();
+                props.addCity(props.city);
               }
               setFavourite(!isFav);
             }}

@@ -40,19 +40,7 @@ const Home = (props: any) => {
     setCurrCity({ id, name });
     setOpen(false);
   };
-  const x = [
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-    { Key: "215854", LocalizedName: "Tel Aviv" },
-  ];
+
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
   return (
@@ -116,7 +104,8 @@ const HomeContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-familty: ShadowsIntoLight;
+  font-family: ShadowsIntoLight;
+  letter-spacing: 1.2px;
 `;
 
 const CitySearch = styled.div`

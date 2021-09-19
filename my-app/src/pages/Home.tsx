@@ -56,7 +56,7 @@ const Home = (props: any) => {
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
   return (
-    <div style={divStyle}>
+    <HomePageWrapper style={divStyle}>
       <HomeContainer>
         <Title style={{ color: txtColor }}>
           Always Keeping you Above the Weather
@@ -67,11 +67,9 @@ const Home = (props: any) => {
             placeholder="search a city"
             onChange={(e) => handleChange(e)}
           />
-          {/* {inputCities.length > 0 && isOpen && ( */}
-          {x.length > 0 && isOpen && (
+          {inputCities.length > 0 && isOpen && (
             <CitiesList>
-              {/* {inputCities.map((city, idx) => { */}
-              {x.map((city, idx) => {
+              {inputCities.map((city, idx) => {
                 return (
                   <div
                     key={idx}
@@ -101,13 +99,15 @@ const Home = (props: any) => {
           </Grid>
         </Container>
       </HomeContainer>
-    </div>
+    </HomePageWrapper>
   );
 };
 
+const HomePageWrapper = styled.div``;
+
 const HomeContainer = styled.div`
   max-width: 1440px;
-  min-height: 80vh;
+  min-height: 85vh;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -158,5 +158,3 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-// material ui icons: Favorite, FavoriteBorder

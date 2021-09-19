@@ -1,5 +1,3 @@
-// import weatherService from "../services/weatherService";
-
 export function addCity(city) {
   return (dispatch) => {
     dispatch(_addCity(city));

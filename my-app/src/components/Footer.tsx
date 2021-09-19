@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import { darkTheme, lightTheme } from "../theme";
 
-const Footer = () => {
-  return <Note>Created by Oshri Hayke for Herolo</Note>;
+const Footer = (props: any) => {
+  const [isDark, setDarkMode] = useState<null | boolean>(null);
+
+  useEffect(() => {
+    setDarkMode(props.isDark);
+  }, [props]);
+
+  const divStyle = isDark ? darkTheme : lightTheme;
+
+  return (
+    <FooterWrapper style={divStyle}>
+      <Note>Created by Oshri Hayke for Herolo</Note>
+    </FooterWrapper>
+  );
 };
 
+const FooterWrapper = styled.div``;
 const Note = styled.h3`
   color: #ed8224;
+  padding: 20px;
+  margin: 0;
 `;
-export default Footer;
+
+const mapStateToProps = (state: any) => {
+  return {
+    isDark: state.appStore.isDark,
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

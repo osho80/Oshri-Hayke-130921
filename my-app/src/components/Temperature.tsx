@@ -4,20 +4,26 @@ import UnitIcon from "./UnitIcon";
 
 const Temperature = (props: { temp: number | null }) => {
   return (
-    <Temp>
+    <TempContainer>
       {props.temp && (
         <>
-          <h3>{props.temp}</h3>
+          <Temp>{props.temp}</Temp>
           <UnitIcon />
         </>
       )}
-    </Temp>
+    </TempContainer>
   );
 };
 
-const Temp = styled.div`
+const TempContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const Temp = styled.p`
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
 `;
 
 export default Temperature;

@@ -23,7 +23,7 @@ const Header = (props: any) => {
   const modeTitle = isDark ? "Change to Bright Mode" : "Change to Dark Mode";
 
   return (
-    <div style={divStyle}>
+    <HeaderWrapper style={divStyle}>
       <AppHeader>
         <Logo>AbraKaWeather</Logo>
         <Links>
@@ -52,9 +52,11 @@ const Header = (props: any) => {
           />
         </Links>
       </AppHeader>
-    </div>
+    </HeaderWrapper>
   );
 };
+
+const HeaderWrapper = styled.div``;
 
 const AppHeader = styled.div`
   max-width: 1440px;

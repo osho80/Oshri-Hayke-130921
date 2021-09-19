@@ -18,7 +18,7 @@ const Current = (props: any) => {
         const currConditions = await getCurrentWeather(props.city.id);
         setCurrWeather(currConditions);
       };
-      // getCurrWeatherData();
+      getCurrWeatherData();
       if (props.favCities.length > 0) {
         const isFav = props.favCities.find(
           (city: CityProps) => city.id === props.city.id
@@ -126,7 +126,10 @@ const TempAndCondition = styled.div`
   justify-content: space-around;
 `;
 
-const ConditionText = styled.div`
+const ConditionText = styled.p`
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
   padding-bottom: 20px;
 `;
 

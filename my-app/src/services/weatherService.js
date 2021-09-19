@@ -7,7 +7,6 @@ export const queryCity = async (q) => {
   try {
     const query = BASE_URL + "cities/" + q;
     const res = await Axios.get(`${query}`);
-    // console.log("My res:", res);
     return res.data;
   } catch (err) {
     console.log("City Query Failed");
@@ -20,7 +19,6 @@ export const getCurrentWeather = async (cityCode) => {
   try {
     const query = BASE_URL + "currentWeather/" + cityCode;
     const res = await Axios.get(`${query}`);
-    console.log("My res:", res);
     return res.data;
   } catch (err) {
     console.log("CurrentWeather Request Failed");
@@ -32,7 +30,6 @@ export const getCurrentWeather = async (cityCode) => {
 export const getForecast = async (cityCode) => {
   try {
     const query = BASE_URL + "forecast/" + cityCode;
-
     const res = await Axios.get(`${query}`);
     return res.data;
   } catch (err) {
@@ -45,7 +42,6 @@ export const getForecast = async (cityCode) => {
 export const getFarenheitForecast = async (cityCode) => {
   try {
     const query = BASE_URL + "f/forecast/" + cityCode;
-
     const res = await Axios.get(`${query}`);
     return res.data;
   } catch (err) {

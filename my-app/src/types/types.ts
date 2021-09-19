@@ -5,6 +5,11 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
+export interface AppState {
+  favCities: [] | { id: string; name: string }[];
+  tempUnit: string;
+  isDark: boolean;
+}
 
 export interface City {
   AdministrativeArea: any;

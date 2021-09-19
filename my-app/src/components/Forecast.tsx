@@ -19,7 +19,7 @@ const Forecast = (props: any) => {
             : await getFarenheitForecast(props.city.id);
         setForecast(forecast.DailyForecasts);
       };
-      // getForecastData();
+      getForecastData();
     }
   }, [props]);
   const renderForecast = !forecast ? (
@@ -59,6 +59,9 @@ const Day = styled.p`
   padding-right: 20px;
 `;
 const ConditionText = styled.p`
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
   @media (max-width: 540px) {
     display: none;
   }

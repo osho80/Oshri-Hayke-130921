@@ -1,10 +1,6 @@
 import { getCookieValues } from "../services/cookieService";
+import { AppState } from "../types/types";
 
-interface AppState {
-  favCities: [] | { id: string; name: string }[];
-  tempUnit: string;
-  isDark: boolean;
-}
 const data = getCookieValues();
 const { favCities, tempUnit, isDark } = data;
 const darkMode = isDark ? JSON.parse(isDark) : false;

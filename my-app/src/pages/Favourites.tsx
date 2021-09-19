@@ -34,24 +34,28 @@ const Favourites = (props: any) => {
 
   if (favCities.length <= 0) {
     return (
-      <>
+      <FavouritesContainer>
         <h2>Your List is Empty</h2>
         <p>
           Go back to <Link to="/">home page</Link> and add cities to your
           favourites
         </p>
-      </>
+      </FavouritesContainer>
     );
   } else {
     return (
-      <div>
+      <FavouritesContainer>
         {favCities.map((city) => {
           return <h1>hello</h1>;
         })}
-      </div>
+      </FavouritesContainer>
     );
   }
 };
+
+const FavouritesContainer = styled.div`
+  min-height: 80vh;
+`;
 
 const mapStateToProps = (state: any) => {
   return {

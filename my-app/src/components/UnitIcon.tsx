@@ -22,10 +22,12 @@ const UnitIcon = (props: any) => {
   }, [props, currUnit]);
 
   const isCels = currUnit === "c" ? true : false;
+  const isWhite = !props.navbar || props.isDark ? "-white" : "";
   const unitIconSrc = isCels
-    ? "../assets/images/celsius-white.png"
-    : "../assets/images/fahrenheit-white.png";
+    ? `../assets/images/celsius${isWhite}.png`
+    : `../assets/images/fahrenheit${isWhite}.png`;
   const unitTitle = isCels ? "Change to Fahrenheit" : "Change to Celsius";
+  console.log("Unit Icon - isDark:", props.isDark);
 
   return (
     <Unit
@@ -57,6 +59,7 @@ const Unit = styled.img`
 const mapStateToProps = (state: any) => {
   return {
     tempUnit: state.appStore.tempUnit,
+    isDark: state.appStore.isDark,
   };
 };
 

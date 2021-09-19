@@ -44,7 +44,7 @@ const Header = (props: any) => {
             <Link to="/favourites">MY CITIES</Link>
           </MenuItem>
           <MenuItem>
-            <UnitIcon />
+            <UnitIcon navbar />
           </MenuItem>
           <SetMode
             src={modeIconSrc}

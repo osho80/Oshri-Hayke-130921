@@ -5,61 +5,30 @@ import styled from "styled-components";
 import { darkTheme, lightTheme } from "../theme";
 
 import { queryCity } from "../services/weatherService";
-import { getCurrentLocation, setLocation } from "../store/actions";
 import Current from "../components/Current";
 import Forecast from "../components/Forecast";
 
-import { City, DailyForecast, CityProps } from "../types/types";
+import { City, CityProps } from "../types/types";
 
 const Home = (props: any) => {
   const [inputCities, setInputCities] = useState<[] | City[]>([]);
-
-  const [city, setCity] = useState<null | string>(null);
-  const [cityCode, setCityCode] = useState<null | string>(null);
-
+  const [isDark, setDarkMode] = useState<null | boolean>(null);
+  const [isOpen, setOpen] = useState(false);
   const [currCity, setCurrCity] = useState<null | { id: string; name: string }>(
     null
   );
 
-  const [forecast, setForecast] = useState<[] | DailyForecast[]>([]);
-  const [isDark, setDarkMode] = useState<null | boolean>(null);
-
   useEffect(() => {
     if (props.favCities.length <= 0) {
-      props.getCurrentLocation();
-      if (props.currLocation.id) {
-        setCurrCity({
-          id: props.currLocation.id,
-          name: props.currLocation.name,
-        });
-        // setCityCode(props.currLocation.id);
-        // setCity(props.currLocation.name);
-      }
+      setCurrCity({ id: "215854", name: "Tel Aviv" });
+    } else {
+      setCurrCity(props.favCities[0]);
     }
     setDarkMode(props.isDark);
   }, [props]);
 
-  // useEffect(() => {
-  //   props.getCurrentLocation();
-  //   if (props.currLocation.id) {
-  //     setCityCode(props.currLocation.id);
-  //     setCity(props.currLocation.name);
-  //   }
-  //   setDarkMode(props.isDark);
-  // }, [props]);
-
-  useEffect(() => {
-    // getCurrentWeather(cityCode);
-    // const forecastData = async () => {
-    //   const forecast = await getForecast(cityCode, false);
-    //   // console.log("My forecast:", forecast);
-    //   setForecast(forecast.DailyForecasts);
-    // };
-    // forecastData();
-    console.log("Bring function back");
-  }, [cityCode]);
-
   const handleChange = async (e: any) => {
+    if (!isOpen) setOpen(true);
     const q = e.target.value;
     if (q) {
       const data = await queryCity(q);
@@ -67,56 +36,62 @@ const Home = (props: any) => {
     }
   };
 
-  const selectCity = ({ id, name }: CityProps) => {
-    // setCityCode(cityCode); // perhaps unnecessary
-    // setCity(cityName); // perhaps unnecessary
-    // console.log("My selectCity params:", id, name);
-
+  const selectCity = async ({ id, name }: CityProps) => {
     setCurrCity({ id, name });
-    const location = { id, name };
-    console.log("My selectCity location:", location);
-    props.setLocation(location);
+    setOpen(false);
   };
-
+  const x = [
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+    { Key: "215854", LocalizedName: "Tel Aviv" },
+  ];
   const divStyle = isDark ? darkTheme : lightTheme;
   const txtColor = isDark ? "white" : "";
   console.log("My cities:", inputCities);
-  console.log("My city:", city);
-  console.log("My code:", cityCode);
-  console.log("My forecast:", forecast);
   console.log("My props:", props);
-
   return (
     <div style={divStyle}>
       <HomeContainer>
         <Title style={{ color: txtColor }}>
           Always Keeping you Above the Weather
         </Title>
-        <CitySearch
-          type="text"
-          placeholder="search a city"
-          onChange={(e) => handleChange(e)}
-        />
-        {inputCities.length > 0 && (
-          <div className="cities">
-            {inputCities.map((city, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="city-item"
-                  onClick={() =>
-                    selectCity({
-                      id: city.Key,
-                      name: city.LocalizedName,
-                    })
-                  }
-                >
-                  <p>{city.LocalizedName}</p>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <CitySearch>
+          <SearchInput
+            type="text"
+            placeholder="search a city"
+            onChange={(e) => handleChange(e)}
+          />
+          {/* {inputCities.length > 0 && isOpen && ( */}
+          {x.length > 0 && isOpen && (
+            <CitiesList>
+              {/* {inputCities.map((city, idx) => { */}
+              {x.map((city, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="city-item"
+                    onClick={() =>
+                      selectCity({
+                        id: city.Key,
+                        name: city.LocalizedName,
+                      })
+                    }
+                  >
+                    <Option>{city.LocalizedName}</Option>
+                  </div>
+                );
+              })}
+            </CitiesList>
+          )}
+        </CitySearch>
         <Container className="main-contaier">
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} sm={12} md={6}>
@@ -146,25 +121,43 @@ const Title = styled.h1`
   font-familty: ShadowsIntoLight;
 `;
 
-const CitySearch = styled.input`
+const CitySearch = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
+const SearchInput = styled.input`
   width: 60%;
   padding: 10px;
   margin-bottom: 30px;
 `;
 
+const CitiesList = styled.div`
+  width: 60%;
+  position: absolute;
+  background-color: #1cb6e6;
+  border-color: #183640;
+  border-radius: 8px;
+  left: 20%;
+  top: 40px;
+`;
+
+const Option = styled.p`
+  color: white;
+  font-size: 18px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const mapStateToProps = (state: any) => {
   return {
-    currLocation: state.appStore.currLocation,
     favCities: state.appStore.favCities,
-    tempUnit: state.appStore.tempUnit,
     isDark: state.appStore.isDark,
   };
 };
 
-const mapDispatchToProps = {
-  getCurrentLocation,
-  setLocation,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

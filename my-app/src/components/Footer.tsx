@@ -1,6 +1,11 @@
 import React from "react";
+import styled from "styled-components";
 
 const Footer = () => {
-  return <h1>Created by Oshri Hayke for Herolo</h1>;
+  return <Note>Created by Oshri Hayke for Herolo</Note>;
 };
+
+const Note = styled.h3`
+  color: #ed8224;
+`;
 export default Footer;

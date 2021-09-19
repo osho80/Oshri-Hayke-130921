@@ -42,4 +42,15 @@ export const getForecast = async (cityCode) => {
   }
 };
 
-// add getForecastFarenheit
+export const getFarenheitForecast = async (cityCode) => {
+  try {
+    const query = BASE_URL + "f/forecast/" + cityCode;
+
+    const res = await Axios.get(`${query}`);
+    return res.data;
+  } catch (err) {
+    console.log("Farenheit Forecast Request Failed");
+    console.dir(err);
+    throw err;
+  }
+};

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import moment from "moment";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
-import { getForecast } from "../services/weatherService";
+import { getForecast, getFarenheitForecast } from "../services/weatherService";
 import { DailyForecast } from "../types/types";
 
 const Forecast = (props: any) => {
@@ -13,35 +13,36 @@ const Forecast = (props: any) => {
   useEffect(() => {
     if (props.city && props.city.id) {
       const getForecastData = async () => {
-        // if (props.tempUnit)
-        const forecast = await getForecast(props.city.id);
-        console.log("My forecast:", forecast);
+        const forecast =
+          props.tempUnit === "c"
+            ? await getForecast(props.city.id)
+            : await getFarenheitForecast(props.city.id);
         setForecast(forecast.DailyForecasts);
       };
       getForecastData();
     }
   }, [props]);
-
-  return (
-    forecast && (
-      <ForecastContainer>
-        {forecast.map((daily, idx) => {
-          return (
-            <DayForecast key={idx}>
-              <Day>{moment(daily.Date).format("ddd")}</Day>
-              <Temperature temp={Math.round(daily.Temperature.Minimum.Value)} />
-              <ConditionIcon idx={daily.Night.Icon} />
-              <ConditionText>{daily.Night.IconPhrase}</ConditionText>
-              <TempSeperator> / </TempSeperator>
-              <Temperature temp={Math.round(daily.Temperature.Maximum.Value)} />
-              <ConditionIcon idx={daily.Day.Icon} />
-              <ConditionText>{daily.Day.IconPhrase}</ConditionText>
-            </DayForecast>
-          );
-        })}
-      </ForecastContainer>
-    )
+  const renderForecast = !forecast ? (
+    <h2>Loading...</h2>
+  ) : (
+    <ForecastContainer>
+      {forecast.map((daily, idx) => {
+        return (
+          <DayForecast key={idx}>
+            <Day>{moment(daily.Date).format("ddd")}</Day>
+            <Temperature temp={Math.round(daily.Temperature.Minimum.Value)} />
+            <ConditionIcon idx={daily.Night.Icon} />
+            <ConditionText>{daily.Night.IconPhrase}</ConditionText>
+            <TempSeperator> / </TempSeperator>
+            <Temperature temp={Math.round(daily.Temperature.Maximum.Value)} />
+            <ConditionIcon idx={daily.Day.Icon} />
+            <ConditionText>{daily.Day.IconPhrase}</ConditionText>
+          </DayForecast>
+        );
+      })}
+    </ForecastContainer>
   );
+  return renderForecast;
 };
 
 const ForecastContainer = styled.div`

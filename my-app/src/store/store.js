@@ -8,12 +8,6 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// const store = createStore(rootReducer, applyMiddleware(thunk));
-
-// export default store;
-
-// export const store = createStore(rootReducer, applyMiddleware(thunk));
-
 export const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))

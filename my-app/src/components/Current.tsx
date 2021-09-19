@@ -4,13 +4,7 @@ import styled from "styled-components";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
 import { getCurrentWeather } from "../services/weatherService";
-import {
-  getCurrentLocation,
-  setLocation,
-  removeCity,
-  addCity,
-  setUnit,
-} from "../store/actions";
+import { removeCity, addCity, setUnit } from "../store/actions";
 import { CityProps, CurrentConditions } from "../types/types";
 import { setCookie, getCookie } from "../services/cookieService";
 
@@ -21,12 +15,10 @@ const Current = (props: any) => {
   useEffect(() => {
     if (props.city && props.city.id) {
       const getCurrWeatherData = async () => {
-        // if (props.city && props.city.id) {
         const currConditions = await getCurrentWeather(props.city.id);
-        console.log("My currConditions:", currConditions);
         setCurrWeather(currConditions);
       };
-      // getCurrWeatherData();
+      getCurrWeatherData();
       if (props.favCities.length > 0) {
         const isFav = props.favCities.find(
           (city: CityProps) => city.id === props.city.id
@@ -34,16 +26,6 @@ const Current = (props: any) => {
         if (isFav) setFavourite(true);
       }
     }
-
-    // const getForecastData = async () => {
-    //   if (props.city && props.city.id) {
-    //     const forecast = await getForecast(props.city.id);
-    //     console.log("My forecast:", forecast);
-    //     setForecast(forecast.DailyForecasts);
-    //   }
-    // };
-
-    // getForecastData();
   }, [props]);
 
   const getDayTime = () => {
@@ -68,9 +50,6 @@ const Current = (props: any) => {
   };
   const cookieName = "favCities";
 
-  console.log("@@@@@:", props.city);
-  console.log("@@@@@favCities:", props.favCities);
-
   return (
     <DailyContaier style={{ backgroundColor: containerBgc }}>
       {props.city && props.city.name && (
@@ -79,14 +58,13 @@ const Current = (props: any) => {
             src={heartIconSrc}
             title={heartTitle}
             alt=""
-            onClick={() => {
+            onClick={async () => {
               console.log("add to favourites");
               if (isFav) {
                 console.log("Removing city:", props.city);
-                removeCity(props.city);
+                props.removeCity(props.city.id);
               } else {
-                console.log("Adding city:", props.city);
-                addCity(props.city);
+                props.addCity(props.city);
               }
               setFavourite(!isFav);
             }}
@@ -147,15 +125,12 @@ const ConditionText = styled.div`
 
 const mapStateToProps = (state: any) => {
   return {
-    currLocation: state.appStore.currLocation, // remove
     tempUnit: state.appStore.tempUnit,
-    favCities: state.appStore.favCities, //remove
+    favCities: state.appStore.favCities,
   };
 };
 
 const mapDispatchToProps = {
-  getCurrentLocation,
-  setLocation,
   removeCity,
   addCity,
   setUnit,

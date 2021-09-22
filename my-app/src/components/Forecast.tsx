@@ -4,6 +4,8 @@ import styled from "styled-components";
 import moment from "moment";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
+import Toaster from "./ErrorMessage";
+import { displayErrMsg } from "../utils/errorMessage";
 import { appOrange } from "../theme";
 import { getForecast, getFarenheitForecast } from "../services/weatherService";
 import { DailyForecast } from "../types/types";
@@ -14,11 +16,15 @@ const Forecast = (props: any) => {
   useEffect(() => {
     if (props.city && props.city.id) {
       const getForecastData = async () => {
-        const forecast =
-          props.tempUnit === "c"
-            ? await getForecast(props.city.id)
-            : await getFarenheitForecast(props.city.id);
-        setForecast(forecast.DailyForecasts);
+        try {
+          const forecast =
+            props.tempUnit === "c"
+              ? await getForecast(props.city.id)
+              : await getFarenheitForecast(props.city.id);
+          setForecast(forecast.DailyForecasts);
+        } catch {
+          displayErrMsg(`forecast data for ${props.city.name}`);
+        }
       };
       getForecastData();
     }
@@ -50,6 +56,7 @@ const Forecast = (props: any) => {
             </DayForecast>
           );
         })}
+        <Toaster />
       </ForecastContainer>
     );
   return renderForecast;

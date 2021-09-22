@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import Toaster from "./ErrorMessage";
+import { displayErrMsg } from "../utils/errorMessage";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
 import { getCurrentWeather } from "../services/weatherService";
@@ -17,8 +19,12 @@ const Current = (props: any) => {
   useEffect(() => {
     if (props.city && props.city.id) {
       const getCurrWeatherData = async () => {
-        const currConditions = await getCurrentWeather(props.city.id);
-        setCurrWeather(currConditions);
+        try {
+          const currConditions = await getCurrentWeather(props.city.id);
+          setCurrWeather(currConditions);
+        } catch {
+          displayErrMsg(`current weather conditions for ${props.city.name}`);
+        }
       };
       getCurrWeatherData();
     }
@@ -84,6 +90,7 @@ const Current = (props: any) => {
           )}
         </>
       )}
+      <Toaster />
     </DailyContaier>
   );
 };

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { queryCity } from "../services/weatherService";
 import Current from "../components/Current";
 import Forecast from "../components/Forecast";
+import Toaster from "../components/ErrorMessage";
+import { displayErrMsg } from "../utils/errorMessage";
 
 import { City, CityProps } from "../types/types";
 
@@ -19,8 +21,12 @@ const Home = (props: any) => {
     if (!isOpen) setOpen(true);
     const q = e.target.value;
     if (q) {
-      const data = await queryCity(q);
-      setInputCities(data);
+      try {
+        const data = await queryCity(q);
+        setInputCities(data);
+      } catch {
+        displayErrMsg("cities list");
+      }
     }
   };
 
@@ -73,6 +79,7 @@ const Home = (props: any) => {
           </Grid>
         </Grid>
       </Container>
+      <Toaster />
     </HomeContainer>
   );
 };

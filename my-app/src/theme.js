@@ -1,9 +1,13 @@
 export const darkTheme = {
-  backgroundColor: "#010101",
-  color: "ffffff",
+  body: "#010101",
+  text: "#ffffff",
+  titleColor: "#5f9ea0",
+  inputBcg: "#b0c4de",
 };
 
 export const lightTheme = {
-  backgroundColor: "#ffffff",
-  color: "#000000",
+  body: "#ffffff",
+  text: "#000000",
 };
+
+export const appOrange = "#ed8224";

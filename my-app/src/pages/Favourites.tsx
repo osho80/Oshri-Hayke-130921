@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CityProps } from "../types/types";
-import { darkTheme, lightTheme } from "../theme";
-import { removeCity } from "../store/actions";
 import Current from "../components/Current";
 const Favourites = (props: any) => {
   const [favCities, setFavCities] = useState<[] | CityProps[]>([]);
@@ -13,14 +11,10 @@ const Favourites = (props: any) => {
     setFavCities(props.favCities);
   }, [props.favCities]);
 
-  const isDark = props.isDark;
-  const divStyle = isDark ? darkTheme : lightTheme;
-  const txtColor = isDark ? "white" : "";
-
   if (favCities.length < 1) {
     return (
-      <FavouritesContainer style={divStyle}>
-        <Message style={{ color: txtColor }}>
+      <FavouritesContainer>
+        <Message>
           <h2>Your List is Empty</h2>
           <p>
             Go back to <Link to="/">home page</Link> and add cities to your
@@ -31,7 +25,7 @@ const Favourites = (props: any) => {
     );
   } else {
     return (
-      <FavouritesContainer style={divStyle}>
+      <FavouritesContainer>
         {favCities.map((city) => {
           return (
             <CityCard>
@@ -68,13 +62,10 @@ const CityCard = styled.div`
 
 const mapStateToProps = (state: any) => {
   return {
-    isDark: state.appStore.isDark,
     favCities: state.appStore.favCities,
   };
 };
 
-const mapDispatchToProps = {
-  removeCity,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

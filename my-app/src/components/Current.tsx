@@ -68,7 +68,7 @@ const Current = (props: any) => {
               }
             }}
           />
-          <h2>{props.city.name}</h2>
+          <CityName>{props.city.name}</CityName>
         </CardTitle>
       )}
       {currWeather && (
@@ -112,6 +112,10 @@ const LikeBtn = styled.img`
   width: 30px;
   height: 30px;
   ${cursorPointer};
+`;
+
+const CityName = styled.h2`
+  color: white;
 `;
 
 const TempAndCondition = styled.div`

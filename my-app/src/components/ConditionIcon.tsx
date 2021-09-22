@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const ConditionIcon = ({ idx }) => {
+type Idx = { idx: number };
+
+const ConditionIcon = ({ idx }: Idx) => {
   const index = idx < 10 ? "0" + idx : idx;
 
   return <ConditionImage src={`../assets/images/${index}-s.png`} />;

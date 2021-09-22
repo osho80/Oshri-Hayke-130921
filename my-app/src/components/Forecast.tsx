@@ -4,6 +4,7 @@ import styled from "styled-components";
 import moment from "moment";
 import Temperature from "./Temperature";
 import ConditionIcon from "./ConditionIcon";
+import { appOrange } from "../theme";
 import { getForecast, getFarenheitForecast } from "../services/weatherService";
 import { DailyForecast } from "../types/types";
 
@@ -55,7 +56,7 @@ const Forecast = (props: any) => {
 };
 
 const Loading = styled.h2`
-  color: #ed8224;
+  color: ${appOrange};
 `;
 const ForecastContainer = styled.div`
   background-color: #61dafb;

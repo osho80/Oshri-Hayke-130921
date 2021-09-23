@@ -13,7 +13,7 @@ const port = process.env.PORT || 3030;
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("public"));
+  app.use(express.static(path.resolve(__dirname, "public")));
 } else {
   const corsOptions = {
     origin: [
@@ -31,7 +31,7 @@ app.get("/api/cities/:q", getCities);
 app.get("/api/currentWeather/:cityCode", getCurrentWeather);
 app.get("/api/forecast/:cityCode", getForecast);
 app.get("/api/f/forecast/:cityCode", getFahrenheitForecast);
-app.get("/", (req, res) => {
+app.get("/**", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 

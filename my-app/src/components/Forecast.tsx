@@ -31,31 +31,32 @@ const Forecast = (props: any) => {
   }, [props]);
 
   const renderForecast =
-    forecast.length === 0 ? (
+    forecast && forecast.length === 0 ? (
       <Loading>Loading Forecast for next 5 Days...</Loading>
     ) : (
       <ForecastContainer>
-        {forecast.map((daily, idx) => {
-          return (
-            <DayForecast key={idx}>
-              <Day>{moment(daily.Date).format("ddd")}</Day>
-              <Conditions>
-                <Min>
-                  <Temperature
-                    temp={Math.round(daily.Temperature.Minimum.Value)}
-                  />
-                  <ConditionIcon idx={daily.Night.Icon} />
-                </Min>
-                <Max>
-                  <Temperature
-                    temp={Math.round(daily.Temperature.Maximum.Value)}
-                  />
-                  <ConditionIcon idx={daily.Day.Icon} />
-                </Max>
-              </Conditions>
-            </DayForecast>
-          );
-        })}
+        {forecast &&
+          forecast.map((daily, idx) => {
+            return (
+              <DayForecast key={idx}>
+                <Day>{moment(daily.Date).format("ddd")}</Day>
+                <Conditions>
+                  <Min>
+                    <Temperature
+                      temp={Math.round(daily.Temperature.Minimum.Value)}
+                    />
+                    <ConditionIcon idx={daily.Night.Icon} />
+                  </Min>
+                  <Max>
+                    <Temperature
+                      temp={Math.round(daily.Temperature.Maximum.Value)}
+                    />
+                    <ConditionIcon idx={daily.Day.Icon} />
+                  </Max>
+                </Conditions>
+              </DayForecast>
+            );
+          })}
         <Toaster />
       </ForecastContainer>
     );

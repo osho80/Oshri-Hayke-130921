@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { appOrange } from "../theme";
 
 const Footer = () => {
-  return <Note>Created by Oshri Hayke for Herolo</Note>;
+  return <Note>Technologies: </Note>;
 };
 
 const Note = styled.h3`

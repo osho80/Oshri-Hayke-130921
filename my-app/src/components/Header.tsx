@@ -17,7 +17,7 @@ const Header = (props: any) => {
 
   return (
     <AppHeader>
-      <Logo>AbraKaWeather</Logo>
+      <Logo>SunCloud</Logo>
       <Links>
         <MenuItem>
           <Link to="/">HOME</Link>
